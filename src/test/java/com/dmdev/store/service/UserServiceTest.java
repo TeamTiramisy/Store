@@ -11,9 +11,5 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor
 class UserServiceTest {
 
-    private final UserService userService;
-
-    @Test
-    void test(){}
 
 }

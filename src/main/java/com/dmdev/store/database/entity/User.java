@@ -43,7 +43,6 @@ public class User implements BaseEntity<Long> {
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    @ToString.Exclude
     private List<Basket> baskets = new ArrayList<>();
 
     @Builder.Default
