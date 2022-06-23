@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineStore</title>
+</head>
+<body>
+<div th:insert="~{startline :: start}"></div>
+<h1 th:if="${category eq 'PHONE'}">Телефоны:</h1>
+<h1 th:if="${category eq 'REFRIGERATOR'}">Холодильники:</h1>
+<h1 th:if="${category eq 'TV'}">Телевизоры:</h1>
+<h1 th:if="${category eq 'COMPUTER'}">Компьютеры:</h1>
+<h1 th:if="${category eq 'LAPTOP'}">Ноутбуки:</h1>
+<h1 th:if="${category eq 'CONSOLE'}">Игровые приставки:</h1>
+<div th:each="technic : ${technics}">
+    <img th:if="${technic.image}"
+         th:src="@{/api/v1/store/{category}/{id}/avatar(id=${technic.id}, category=${technic.category})}"
+         alt="Product image">
+    <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
+</div>
+</body>
+</html>

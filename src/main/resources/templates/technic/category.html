@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineStore</title>
+    <style>
+        body {
+            font-size: 25px
+        }
+
+        h1 {
+            font-size: 40px;
+            text-align: center;
+        }
+
+        ul {
+            text-align: center;
+            letter-spacing: 50px;
+        }
+
+        a {
+            letter-spacing: 0;
+            color: white;
+            text-decoration: none;
+        }
+
+        .grad {
+            background: linear-gradient(to right, darkorchid, crimson);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<h1>Магазин бытовой техники:</h1>
+<div th:insert="~{startline :: start}"></div>
+<ul class="grad">
+    <span th:each="category : ${categories}">
+        <a th:if="${category eq 'PHONE'}" th:href="@{'/store/' + ${category}}">Телефоны</a>
+        <a th:if="${category eq 'REFRIGERATOR'}" th:href="@{'/store/' + ${category}}">Холодильники</a>
+        <a th:if="${category eq 'TV'}" th:href="@{'/store/' + ${category}}">Телевизоры</a>
+        <a th:if="${category eq 'COMPUTER'}" th:href="@{'/store/' + ${category}}">Компьютеры</a>
+        <a th:if="${category eq 'LAPTOP'}" th:href="@{'/store/' + ${category}}">Ноутбуки</a>
+        <a th:if="${category eq 'CONSOLE'}" th:href="@{'/store/' + ${category}}">Игровые приставки</a>
+    </span>
+</ul>
+<img src="https://telsgroup.ru/upload/medialibrary/4c2/8odb4m6x7hl0663l8oip50sdl1xgm3qf.png" alt="">
+</body>
+</html>

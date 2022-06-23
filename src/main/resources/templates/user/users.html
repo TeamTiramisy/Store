@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        p {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Все пользователи:</h1>
+<div th:each="user : ${users}">
+    <p>
+        <a th:text="|${user.firstname} ${user.lastname} ${user.email}|"
+           th:href="@{/store/admin/users/{id}(id=${user.id})}">User</a>
+    </p>
+</div>
+</body>
+</html>

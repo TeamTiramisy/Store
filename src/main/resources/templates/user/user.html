@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <style>
+        label {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Пользователь:</h1>
+<label><strong>Имя: </strong>
+    <span th:text="${user.firstname}">Name</span>
+</label><br>
+<label><strong>Фамилия: </strong>
+    <span th:text="${user.lastname}">Name</span>
+</label><br>
+<label><strong>Эл почта: </strong>
+    <span th:text="${user.email}">Email</span>
+</label><br>
+<label><strong>Телефон: </strong>
+    <span th:text="${user.tel}">Tel</span>
+</label><br>
+<label><strong>Адрес: </strong>
+    <span th:text="${user.address}">Adress</span>
+</label><br>
+<label><strong>Роль: </strong>
+    <span th:text="${user.role}">Role</span>
+</label><br>
+<label><strong>Пол: </strong>
+    <span th:if="${user.gender eq 'MALE'}">Муж</span>
+    <span th:if="${user.gender eq 'FEMALE'}">Жен</span>
+</label><br>
+<label><strong>Черный список: </strong>
+    <span th:text="${user.blacklist}">Blacklist</span>
+</label><br>
+<form th:action="@{/store/admin/users/{id}/update(id=${user.id})}" method="post">
+    <button type="submit" th:if="${user.role eq 'USER'}">Сделать админом</button>
+    <button type="submit" th:if="${user.role eq 'ADMIN'}">Сделать юзером</button>
+</form>
+<form th:action="@{/store/admin/users/{id}/blacklist(id=${user.id})}" method="post">
+    <button type="submit" th:if="${user.blacklist eq 'NO'}">Добавить в черный список</button>
+    <button type="submit" th:if="${user.blacklist eq 'YES'}">Убрать из черного списка</button>
+</form>
+</body>
+</html>

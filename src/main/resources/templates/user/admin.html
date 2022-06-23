@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PageAdmin</title>
+    <style>
+        p {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Страничка админа:</h1>
+<a href="admin/add">
+    <p>Добавить товар</p>
+</a>
+<a href="admin/users">
+    <p>Все пользователи</p>
+</a>
+<a href="admin/orders">
+    <p>Все заказы</p>
+</a>
+<a href="admin/orders/processing">
+    <p>Заказы на обработку</p>
+</a>
+<a href="admin/orders/completed">
+    <p>Заказы на закрытие</p>
+</a>
+</body>
+</html>

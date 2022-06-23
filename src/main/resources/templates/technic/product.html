@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name}">Title</title>
+</head>
+<body>
+<div th:insert="~{startline :: start}"></div>
+<h1 th:text="${product.name}">Product</h1>
+    <img th:src="@{/api/v1/store/{category}/{id}/avatar(id=${product.id}, category=${product.category})}" alt="Product image">
+</body>
+</html>
