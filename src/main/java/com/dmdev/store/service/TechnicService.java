@@ -3,12 +3,16 @@ package com.dmdev.store.service;
 import com.dmdev.store.database.entity.Category;
 import com.dmdev.store.database.entity.Technic;
 import com.dmdev.store.database.repository.TechnicRepository;
+import com.dmdev.store.dto.TechnicCreateDto;
 import com.dmdev.store.dto.TechnicReadDto;
+import com.dmdev.store.mapper.TechnicCreateMapper;
 import com.dmdev.store.mapper.TechnicReadMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +27,7 @@ public class TechnicService {
     private final TechnicRepository technicRepository;
     private final TechnicReadMapper mapper;
     private final ImageService imageService;
+    private final TechnicCreateMapper createMapper;
 
     public Set<String> findAllCategory() {
         return technicRepository.findAll().stream()
@@ -42,10 +47,22 @@ public class TechnicService {
                 .map(mapper::map);
     }
 
-    public List<TechnicReadDto> findByNameContainingIgnoreCase(String name){
+    public List<TechnicReadDto> findByNameContainingIgnoreCase(String name) {
         return technicRepository.findByNameContainingIgnoreCase(name).stream()
                 .map(mapper::map)
                 .toList();
+    }
+
+    @Transactional
+    public TechnicReadDto create(TechnicCreateDto technicCreateDto) {
+        return Optional.of(technicCreateDto)
+                .map(dto -> {
+                    uploadImage(dto.getImage(), technicCreateDto.getCategory().name());
+                    return createMapper.map(dto);
+                })
+                .map(technicRepository::save)
+                .map(mapper::map)
+                .orElseThrow();
     }
 
     public Optional<byte[]> findAvatar(Long id) {
@@ -53,5 +70,12 @@ public class TechnicService {
                 .map(Technic::getImage)
                 .filter(StringUtils::hasText)
                 .flatMap(imageService::get);
+    }
+
+    @SneakyThrows
+    private void uploadImage(MultipartFile image, String directory) {
+        if (!image.isEmpty()){
+            imageService.upload(directory + "/" + image.getOriginalFilename(), image.getInputStream());
+        }
     }
 }

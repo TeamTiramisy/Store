@@ -1,6 +1,7 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.annotation.IT;
+import com.dmdev.store.dto.TechnicCreateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hamcrest.collection.IsCollectionWithSize;
@@ -12,6 +13,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.dmdev.store.dto.TechnicCreateDto.*;
+import static com.dmdev.store.dto.TechnicCreateDto.Fields.*;
 import static org.hamcrest.collection.IsCollectionWithSize.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -68,6 +71,30 @@ class TechnicControllerTest {
                 .andExpect(view().name("technic/search"))
                 .andExpect(model().attributeExists("technics"))
                 .andExpect(model().attribute("technics", hasSize(5)));
+    }
+
+    @Test
+    @SneakyThrows
+    void addProductTest(){
+        mockMvc.perform(get("/store/admin/add"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("technic/add"))
+                .andExpect(model().attributeExists("technic"))
+                .andExpect(model().attributeExists("category"));
+    }
+
+    @Test
+    @SneakyThrows
+    void createTest(){
+        mockMvc.perform(post("/store/admin/add/create")
+                .param(name, "test")
+                .param(category, "PHONE")
+                .param(description, "test")
+                .param(price, "1")
+                .param(amount, "1")
+                .param(image,"test.png"))
+                .andExpectAll(
+                        status().is4xxClientError());
     }
 
 }

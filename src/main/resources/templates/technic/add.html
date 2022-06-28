@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineStore</title>
+    <style>
+        body {line-height: 1.5}
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Добавить товар:</h1>
+<form action="/store/admin/add/create" enctype="multipart/form-data" method="post">
+    <label for="name">Имя:
+        <input id="name" type="text" name="name">
+    </label><br>
+    <label for="category">Категория:
+        <select name="category" id="category">
+            <option th:each="category : ${category}"
+                    th:value="${category}"
+                    th:selected="${category == technic.category}"
+                    th:text="${category.name()}">Company
+            </option>
+        </select>
+    </label><br>
+    <label for="description">Описание:
+        <input id="description" type="text" name="description">
+    </label><br>
+    <label for="price">Цена:
+        <input id="price" type="number" name="price">
+    </label><br>
+    <label for="amount">Количество:
+        <input id="amount" type="number" name="amount">
+    </label><br>
+    <label for="image">Картинка:
+        <input id="image" type="file" name="image">
+    </label><br>
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>

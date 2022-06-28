@@ -3,10 +3,18 @@ package com.dmdev.store.service;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Category;
 import com.dmdev.store.database.entity.Technic;
+import com.dmdev.store.dto.TechnicCreateDto;
 import com.dmdev.store.dto.TechnicReadDto;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,6 +89,31 @@ class TechnicServiceTest {
     void findAvatarTest() {
         Optional<byte[]> avatar = technicService.findAvatar(1L);
         assertTrue(avatar.isPresent());
+    }
+
+    @Test
+    @SneakyThrows
+    void createTest(){
+        File file = new File("src/test/resources/Huawei9.png");
+        try (var inputstream = new FileInputStream(file)) {
+            TechnicCreateDto technic = TechnicCreateDto.builder()
+                    .name("test")
+                    .category(PHONE)
+                    .description("test")
+                    .price(1)
+                    .amount(1)
+                    .image(new MockMultipartFile("test.png", "Huawei9",
+                            "png", inputstream))
+                    .build();
+
+            TechnicReadDto technicReadDto = technicService.create(technic);
+
+            assertEquals(technic.getName(), technicReadDto.getName());
+            assertEquals(technic.getCategory().name(), technicReadDto.getCategory());
+            assertEquals(technic.getDescription(), technicReadDto.getDescription());
+            assertEquals(technic.getPrice(), technicReadDto.getPrice());
+            assertEquals(technic.getAmount(), technicReadDto.getAmount());
+        }
     }
 
 }

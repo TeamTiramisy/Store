@@ -83,7 +83,5 @@ class UserServiceTest {
         assertTrue(maybeUser.isPresent());
 
         maybeUser.ifPresent(user-> assertEquals("YES", user.getBlacklist()));
-
-
     }
 }

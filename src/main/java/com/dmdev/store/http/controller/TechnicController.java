@@ -1,15 +1,14 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.database.entity.Category;
+import com.dmdev.store.dto.TechnicCreateDto;
+import com.dmdev.store.dto.TechnicReadDto;
 import com.dmdev.store.service.TechnicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -46,5 +45,18 @@ public class TechnicController {
     public String findAllByNameContaining(@RequestParam String search, Model model){
         model.addAttribute("technics", technicService.findByNameContainingIgnoreCase(search));
         return "technic/search";
+    }
+
+    @GetMapping("/admin/add")
+    public String addProduct(Model model, @ModelAttribute TechnicCreateDto technic){
+        model.addAttribute("technic", technic);
+        model.addAttribute("category", Category.values());
+        return "technic/add";
+    }
+
+    @PostMapping("/admin/add/create")
+    public String create(@ModelAttribute TechnicCreateDto technic){
+        TechnicReadDto technicReadDto = technicService.create(technic);
+        return "redirect:/store/" + technicReadDto.getCategory() + "/" + technicReadDto.getId();
     }
 }
