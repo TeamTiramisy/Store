@@ -1,7 +1,9 @@
 package com.dmdev.store.service;
 
 import com.dmdev.store.annotation.IT;
+import com.dmdev.store.database.entity.Gender;
 import com.dmdev.store.database.entity.Role;
+import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.dto.UserReadDto;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
+import static com.dmdev.store.database.entity.Gender.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @IT
@@ -83,5 +86,28 @@ class UserServiceTest {
         assertTrue(maybeUser.isPresent());
 
         maybeUser.ifPresent(user-> assertEquals("YES", user.getBlacklist()));
+    }
+
+    @Test
+    void createTest(){
+        UserCreateDto user = UserCreateDto.builder()
+                .firstname("test")
+                .lastname("test")
+                .email("test@mail.ru")
+                .password("123")
+                .tel("+375298888888")
+                .address("test")
+                .gender(MALE)
+                .build();
+
+        UserReadDto userReadDto = userService.create(user);
+
+        assertEquals(user.getFirstname(), userReadDto.getFirstname());
+        assertEquals(user.getLastname(), userReadDto.getLastname());
+        assertEquals(user.getEmail(), userReadDto.getEmail());
+        assertEquals(user.getPassword(), userReadDto.getPassword());
+        assertEquals(user.getTel(), userReadDto.getTel());
+        assertEquals(user.getAddress(), userReadDto.getAddress());
+        assertEquals(user.getGender().name(), userReadDto.getGender());
     }
 }
