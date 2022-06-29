@@ -1,10 +1,9 @@
 package com.dmdev.store.service;
 
-import com.dmdev.store.database.entity.BlackList;
-import com.dmdev.store.database.entity.Role;
-import com.dmdev.store.database.entity.User;
 import com.dmdev.store.database.repository.UserRepository;
+import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.dto.UserReadDto;
+import com.dmdev.store.mapper.UserCreateMapper;
 import com.dmdev.store.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserReadMapper mapper;
+    private final UserCreateMapper createMapper;
 
     public List<UserReadDto> findAll(){
         return userRepository.findAll().stream()
@@ -63,5 +63,14 @@ public class UserService {
                 })
                 .map(userRepository::saveAndFlush)
                 .map(mapper::map);
+    }
+
+    @Transactional
+    public UserReadDto create(UserCreateDto userCreateDto){
+        return Optional.of(userCreateDto)
+                .map(createMapper::map)
+                .map(userRepository::save)
+                .map(mapper::map)
+                .orElseThrow();
     }
 }

@@ -102,7 +102,7 @@ class TechnicServiceTest {
                     .description("test")
                     .price(1)
                     .amount(1)
-                    .image(new MockMultipartFile("test.png", "Huawei9",
+                    .image(new MockMultipartFile("test.png", "Huawei9.png",
                             "png", inputstream))
                     .build();
 
