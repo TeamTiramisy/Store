@@ -1,17 +1,15 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.annotation.IT;
-import com.dmdev.store.dto.UserCreateDto;
-import com.dmdev.store.dto.UserCreateDto.Fields;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.dmdev.store.dto.UserCreateDto.Fields.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -20,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
+@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 class UserControllerTest {
 
     private final MockMvc mockMvc;
@@ -92,7 +91,7 @@ class UserControllerTest {
                 .param(firstname, "test")
                 .param(lastname, "test")
                 .param(email, "test@mail.ru")
-                .param(password, "123")
+                .param(rawPassword, "123")
                 .param(tel, "+375298888888")
                 .param(address, "test")
                 .param(gender, "MALE")
@@ -100,6 +99,16 @@ class UserControllerTest {
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/login")
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void createValidTest(){
+        mockMvc.perform(post("/store"))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/registration")
                 );
     }
 }

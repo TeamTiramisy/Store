@@ -8,6 +8,7 @@ import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
+@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 class TechnicControllerTest {
 
     private final MockMvc mockMvc;
@@ -94,7 +96,18 @@ class TechnicControllerTest {
                 .param(amount, "1")
                 .param(image,"test.png"))
                 .andExpectAll(
-                        status().is4xxClientError());
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/admin/add"));
+    }
+
+    @Test
+    @SneakyThrows
+    void createValidTest(){
+        mockMvc.perform(post("/store/admin/add/create"))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/admin/add")
+                );
     }
 
 }

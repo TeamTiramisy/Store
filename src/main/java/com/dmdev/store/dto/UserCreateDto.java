@@ -7,19 +7,43 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.FieldNameConstants;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Value
 @Builder
 @FieldNameConstants
 public class UserCreateDto {
 
     Long id;
+
+    @NotEmpty
+    @NotBlank
     String firstname;
+
+    @NotEmpty
+    @NotBlank
     String lastname;
+
+    @Email
+    @NotEmpty
     String email;
-    String password;
+
+    @NotBlank
+    String rawPassword;
+
+    @NotEmpty
     String tel;
+
+    @NotEmpty
     String address;
+
     Role role;
+
+    @NotNull
     Gender gender;
+
     BlackList blacklist;
 }

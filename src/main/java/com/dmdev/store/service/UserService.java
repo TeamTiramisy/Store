@@ -6,9 +6,14 @@ import com.dmdev.store.dto.UserReadDto;
 import com.dmdev.store.mapper.UserCreateMapper;
 import com.dmdev.store.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +23,7 @@ import static com.dmdev.store.database.entity.Role.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserReadMapper mapper;
@@ -72,5 +77,16 @@ public class UserService {
                 .map(userRepository::save)
                 .map(mapper::map)
                 .orElseThrow();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .map(user -> new User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        Collections.singleton(user.getRole())
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("Неверный логин или пороль"));
     }
 }

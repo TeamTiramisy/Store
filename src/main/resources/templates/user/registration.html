@@ -10,8 +10,8 @@
 <body>
 <h3>Регистрация:</h3>
 <form action="/store" method="post" th:object="${user}">
-    <label  for="firstname">Имя:
-        <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
+    <label for="firstname">Имя:
+        <input id="firstname" type="text" name="firstname" th:value="${user.firstname}">
     </label><br>
     <label for="lastname">Фамилия:
         <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
@@ -19,8 +19,8 @@
     <label for="email">Эл почта:
         <input id="email" type="email" name="email" th:value="*{email}">
     </label><br>
-    <label for="password">Пароль:
-        <input id="password" type="password" name="password">
+    <label for="rawPassword">Пароль:
+        <input id="rawPassword" type="password" name="rawPassword">
     </label><br>
     <label for="tel">Телефон:
         <input id="tel" type="tel" name="tel" th:value="*{tel}">
@@ -34,5 +34,8 @@
     <br>
     <button type="submit">Отправить</button>
 </form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
 </body>
 </html>

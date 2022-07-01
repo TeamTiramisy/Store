@@ -8,8 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/store")
@@ -48,14 +52,21 @@ public class TechnicController {
     }
 
     @GetMapping("/admin/add")
-    public String addProduct(Model model, @ModelAttribute TechnicCreateDto technic){
+    public String addProduct(Model model, @ModelAttribute("technic") TechnicCreateDto technic){
         model.addAttribute("technic", technic);
         model.addAttribute("category", Category.values());
         return "technic/add";
     }
 
     @PostMapping("/admin/add/create")
-    public String create(@ModelAttribute TechnicCreateDto technic){
+    public String create(@ModelAttribute @Validated TechnicCreateDto technic,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("technic", technic);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/store/admin/add";
+        }
         TechnicReadDto technicReadDto = technicService.create(technic);
         return "redirect:/store/" + technicReadDto.getCategory() + "/" + technicReadDto.getId();
     }

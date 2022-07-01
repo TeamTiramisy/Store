@@ -11,9 +11,9 @@
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
 <h1>Добавить товар:</h1>
-<form action="/store/admin/add/create" enctype="multipart/form-data" method="post">
+<form action="/store/admin/add/create" enctype="multipart/form-data" method="post" th:object="${technic}">
     <label for="name">Имя:
-        <input id="name" type="text" name="name">
+        <input id="name" type="text" name="name" th:value="*{name}">
     </label><br>
     <label for="category">Категория:
         <select name="category" id="category">
@@ -25,18 +25,21 @@
         </select>
     </label><br>
     <label for="description">Описание:
-        <input id="description" type="text" name="description">
+        <input id="description" type="text" name="description" th:value="*{description}">
     </label><br>
     <label for="price">Цена:
-        <input id="price" type="number" name="price">
+        <input id="price" type="number" name="price" th:value="*{price}">
     </label><br>
     <label for="amount">Количество:
-        <input id="amount" type="number" name="amount">
+        <input id="amount" type="number" name="amount" th:value="*{amount}">
     </label><br>
     <label for="image">Картинка:
-        <input id="image" type="file" name="image">
+        <input id="image" type="file" name="image" th:value="*{image}">
     </label><br>
     <button type="submit">Добавить</button>
 </form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
 </body>
 </html>

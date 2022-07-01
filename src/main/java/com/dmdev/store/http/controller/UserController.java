@@ -7,8 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -56,16 +62,23 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model, @ModelAttribute UserCreateDto user) {
+    public String registration(Model model, @ModelAttribute("user") UserCreateDto user) {
         model.addAttribute("user", user);
         model.addAttribute("genders", Gender.values());
         return "user/registration";
     }
 
     @PostMapping
-    public String create(@ModelAttribute UserCreateDto user){
-        userService.create(user);
-        return "redirect:/login";
+    public String create(@ModelAttribute @Validated UserCreateDto user,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("user", user);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/store/registration";
+        }
+            userService.create(user);
+            return "redirect:/login";
     }
 
 

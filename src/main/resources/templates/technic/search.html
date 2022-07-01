@@ -5,6 +5,7 @@
     <title>OnlineStore</title>
 </head>
 <body>
+<div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
 <h1>Результаты поиска <span th:text="${param.search}">Text</span>:</h1>
 <div th:if="${not #strings.isEmpty(param.search) and not #lists.isEmpty(technics)}" th:each="technic : ${technics}">

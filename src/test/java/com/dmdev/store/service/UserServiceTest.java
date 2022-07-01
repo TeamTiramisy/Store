@@ -1,12 +1,12 @@
 package com.dmdev.store.service;
 
 import com.dmdev.store.annotation.IT;
-import com.dmdev.store.database.entity.Gender;
-import com.dmdev.store.database.entity.Role;
 import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.dto.UserReadDto;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ class UserServiceTest {
             assertEquals("Ruslan", user.getFirstname());
             assertEquals("Niyazov", user.getLastname());
             assertEquals("rusya-niyazov@mail.ru", user.getEmail());
-            assertEquals("123", user.getPassword());
+            assertEquals("{noop}123", user.getPassword());
             assertEquals("+375295857929", user.getTel());
             assertEquals("Gavrilova 1 kv 6", user.getAddress());
             assertEquals("ADMIN", user.getRole());
@@ -59,7 +59,7 @@ class UserServiceTest {
             assertEquals("Ruslan", user.getFirstname());
             assertEquals("Niyazov", user.getLastname());
             assertEquals("rusya-niyazov@mail.ru", user.getEmail());
-            assertEquals("123", user.getPassword());
+            assertEquals("{noop}123", user.getPassword());
             assertEquals("+375295857929", user.getTel());
             assertEquals("Gavrilova 1 kv 6", user.getAddress());
             assertEquals("ADMIN", user.getRole());
@@ -94,7 +94,7 @@ class UserServiceTest {
                 .firstname("test")
                 .lastname("test")
                 .email("test@mail.ru")
-                .password("123")
+                .rawPassword("123")
                 .tel("+375298888888")
                 .address("test")
                 .gender(MALE)
@@ -105,9 +105,22 @@ class UserServiceTest {
         assertEquals(user.getFirstname(), userReadDto.getFirstname());
         assertEquals(user.getLastname(), userReadDto.getLastname());
         assertEquals(user.getEmail(), userReadDto.getEmail());
-        assertEquals(user.getPassword(), userReadDto.getPassword());
         assertEquals(user.getTel(), userReadDto.getTel());
         assertEquals(user.getAddress(), userReadDto.getAddress());
         assertEquals(user.getGender().name(), userReadDto.getGender());
+    }
+
+    @Test
+    void loadUserByUsernameTest(){
+        UserDetails user = userService.loadUserByUsername("rusya-niyazov@mail.ru");
+
+        assertEquals("rusya-niyazov@mail.ru", user.getUsername());
+        assertEquals("{noop}123", user.getPassword());
+    }
+
+    @Test
+    void loadUserByUsernameExceptionTest(){
+        assertThrows(UsernameNotFoundException.class,
+                () -> userService.loadUserByUsername("test@mail.ru"));
     }
 }

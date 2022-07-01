@@ -5,6 +5,7 @@
     <title>OnlineStore</title>
 </head>
 <body>
+<div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
 <h1 th:if="${category eq 'PHONE'}">Телефоны:</h1>
 <h1 th:if="${category eq 'REFRIGERATOR'}">Холодильники:</h1>

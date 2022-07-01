@@ -8,9 +8,10 @@
     </style>
 </head>
 <body>
-<form >
-    <label for="email">Эл почта:
-        <input id="email" type="text" name="email">
+<form action="/login" method="post">
+    <div style="color: red" th:if="${param.error}">Неверно</div>
+    <label for="username">Эл почта:
+        <input id="username" type="text" name="username">
     </label><br>
     <label for="password">Пароль:
         <input id="password" type="password" name="password">
