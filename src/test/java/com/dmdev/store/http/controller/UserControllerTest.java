@@ -38,7 +38,7 @@ class UserControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/users"))
                 .andExpect(model().attributeExists("users"))
-                .andExpect(model().attribute("users", hasSize(6)));
+                .andExpect(model().attribute("users", hasSize(5)));
     }
 
     @Test

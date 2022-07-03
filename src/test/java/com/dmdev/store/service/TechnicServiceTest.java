@@ -28,13 +28,10 @@ class TechnicServiceTest {
 
     private final TechnicService technicService;
     private static final TechnicReadDto technicReadDto = TechnicReadDto.builder()
-            .id(1L)
+            .id(66L)
             .name("Apple iPhone 13 256GB")
             .category("PHONE")
-            .description("Диагональ экрана\t6.1 ″ Оперативная память\t4 Гб Постоянная память\t" +
-                    "256 Гб Версия операционной системы\tiOS 15 Дополнительный модуль камеры\t" +
-                    "есть, сверхширокоугольный Разрешение камеры\t12 Мп Кол-во SIM-карт\t" +
-                    "2 Емкость аккумулятора\t3240 мАч")
+            .description("diagonal\t6.1 RAM\t4GB SSD\t256GB battery\t3240 mAh")
             .price(3999)
             .amount(6)
             .image("PHONE/iPhone13256.png")
@@ -58,7 +55,7 @@ class TechnicServiceTest {
 
     @Test
     void findByIdTest() {
-        Optional<TechnicReadDto> product = technicService.findById(1L);
+        Optional<TechnicReadDto> product = technicService.findById(66L);
         assertTrue(product.isPresent());
 
         product.ifPresent(technic -> assertEquals(technicReadDto, technic));
@@ -67,7 +64,7 @@ class TechnicServiceTest {
     @Test
     void findByNameContainingIgnoreCaseTest() {
         List<TechnicReadDto> phones = technicService.findByNameContainingIgnoreCase("phone");
-        Optional<TechnicReadDto> product = phones.stream().filter(phone -> phone.getId() == 1L).findFirst();
+        Optional<TechnicReadDto> product = phones.stream().filter(phone -> phone.getId() == 66L).findFirst();
 
         assertEquals(5, phones.size());
         assertTrue(product.isPresent());
@@ -102,8 +99,7 @@ class TechnicServiceTest {
                     .description("test")
                     .price(1)
                     .amount(1)
-                    .image(new MockMultipartFile("test.png", "Huawei9.png",
-                            "png", inputstream))
+                    .image( new MockMultipartFile("test", new byte[0]))
                     .build();
 
             TechnicReadDto technicReadDto = technicService.create(technic);

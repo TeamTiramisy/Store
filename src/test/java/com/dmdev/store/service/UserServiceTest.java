@@ -26,7 +26,7 @@ class UserServiceTest {
     void findAllTest(){
         List<UserReadDto> users = userService.findAll();
 
-        assertEquals(6, users.size());
+        assertEquals(5, users.size());
 
         Optional<UserReadDto> maybeUser = users.stream()
                 .filter(user -> user.getEmail().equals("rusya-niyazov@mail.ru"))

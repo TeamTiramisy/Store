@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset rniyazov:1
 CREATE TABLE IF NOT EXISTS users
 (
     id        BIGSERIAL PRIMARY KEY,
@@ -12,8 +15,7 @@ CREATE TABLE IF NOT EXISTS users
     blacklist varchar(32)  NOT NULL
     );
 
-DROP TABLE orders;
-
+--changeset rniyazov:2
 CREATE TABLE IF NOT EXISTS technic
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -22,9 +24,10 @@ CREATE TABLE IF NOT EXISTS technic
     description VARCHAR(255)       NOT NULL,
     price       INT                NOT NULL,
     amount      INT                NOT NULL,
-    image       VARCHAR(124)       NOT NULL
+    image       VARCHAR(124)
     );
 
+--changeset rniyazov:3
 CREATE TABLE IF NOT EXISTS basket
 (
     id         BIGSERIAL PRIMARY KEY,
@@ -33,6 +36,7 @@ CREATE TABLE IF NOT EXISTS basket
     UNIQUE (users_id, technic_id)
     );
 
+--changeset rniyazov:4
 CREATE TABLE IF NOT EXISTS orders
 (
     id                BIGSERIAL PRIMARY KEY,

@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation "org.springdoc:springdoc-openapi-ui:${versions.springdoc}"
     implementation 'org.postgresql:postgresql'
+    implementation 'org.liquibase:liquibase-core'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
