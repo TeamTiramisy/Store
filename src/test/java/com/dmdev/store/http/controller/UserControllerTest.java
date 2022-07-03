@@ -38,7 +38,7 @@ class UserControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/users"))
                 .andExpect(model().attributeExists("users"))
-                .andExpect(model().attribute("users", hasSize(5)));
+                .andExpect(model().attribute("users", hasSize(6)));
     }
 
     @Test
@@ -87,7 +87,7 @@ class UserControllerTest {
     @Test
     @SneakyThrows
     void createTest(){
-        mockMvc.perform(post("/store")
+        mockMvc.perform(post("/store/create")
                 .param(firstname, "test")
                 .param(lastname, "test")
                 .param(email, "test@mail.ru")
@@ -105,7 +105,7 @@ class UserControllerTest {
     @Test
     @SneakyThrows
     void createValidTest(){
-        mockMvc.perform(post("/store"))
+        mockMvc.perform(post("/store/create"))
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/registration")

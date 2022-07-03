@@ -15,7 +15,7 @@
 <h1 th:if="${category eq 'CONSOLE'}">Игровые приставки:</h1>
 <div th:each="technic : ${technics}">
     <img th:if="${technic.image}"
-         th:src="@{/api/v1/store/{category}/{id}/avatar(id=${technic.id}, category=${technic.category})}"
+         th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
          alt="Product image">
     <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
 </div>

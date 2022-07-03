@@ -5,6 +5,9 @@ import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -68,7 +72,7 @@ public class UserController {
         return "user/registration";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public String create(@ModelAttribute @Validated UserCreateDto user,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes){

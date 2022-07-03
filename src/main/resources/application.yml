@@ -4,9 +4,28 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     properties.hibernate:
       show_sql: true
       format_sql: true
       hbm2ddl.auto: validate
     open-in-view: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 246668359321-5ndsos5mipq7rrq75291frp23alu1rvu.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: 246668359321-5ndsos5mipq7rrq75291frp23alu1rvu.apps.googleusercontent.com
+      client-secret: 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
+      scopes: openid,email,profile
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html

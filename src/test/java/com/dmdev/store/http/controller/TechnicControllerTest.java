@@ -1,14 +1,17 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.annotation.IT;
+import com.dmdev.store.database.entity.Role;
 import com.dmdev.store.dto.TechnicCreateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hamcrest.collection.IsCollectionWithSize;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -103,7 +106,8 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void createValidTest(){
-        mockMvc.perform(post("/store/admin/add/create"))
+        mockMvc.perform(post("/store/admin/add/create")
+                        .with(SecurityMockMvcRequestPostProcessors.user("test@gmail.com").authorities(Role.ADMIN)))
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/admin/add")

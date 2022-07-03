@@ -24,7 +24,7 @@ public class TechnicRestController {
 
     private final TechnicService technicService;
 
-    @GetMapping("/{value}/{id}/avatar")
+    @GetMapping("/{id}/avatar")
     public byte[] findAvatar(@PathVariable("id") Long id) {
         return technicService.findAvatar(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

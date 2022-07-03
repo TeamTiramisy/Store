@@ -9,7 +9,7 @@
 </head>
 <body>
 <h3>Регистрация:</h3>
-<form action="/store" method="post" th:object="${user}">
+<form th:action="@{/store/create}" method="post" th:object="${user}">
     <label for="firstname">Имя:
         <input id="firstname" type="text" name="firstname" th:value="${user.firstname}">
     </label><br>

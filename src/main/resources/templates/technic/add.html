@@ -11,7 +11,7 @@
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
 <h1>Добавить товар:</h1>
-<form action="/store/admin/add/create" enctype="multipart/form-data" method="post" th:object="${technic}">
+<form th:action="@{/store/admin/add/create}" enctype="multipart/form-data" method="post" th:object="${technic}">
     <label for="name">Имя:
         <input id="name" type="text" name="name" th:value="*{name}">
     </label><br>

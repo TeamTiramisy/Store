@@ -8,6 +8,6 @@
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
 <h1 th:text="${product.name}">Product</h1>
-    <img th:src="@{/api/v1/store/{category}/{id}/avatar(id=${product.id}, category=${product.category})}" alt="Product image">
+    <img th:src="@{/api/v1/store/{id}/avatar(id=${product.id})}" alt="Product image">
 </body>
 </html>
