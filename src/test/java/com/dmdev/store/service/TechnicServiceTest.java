@@ -91,8 +91,6 @@ class TechnicServiceTest {
     @Test
     @SneakyThrows
     void createTest() {
-        File file = new File("src/test/resources/Huawei9.png");
-        try (var inputstream = new FileInputStream(file)) {
             TechnicCreateDto technic = TechnicCreateDto.builder()
                     .name("test")
                     .category(PHONE)
@@ -109,7 +107,6 @@ class TechnicServiceTest {
             assertEquals(technic.getDescription(), technicReadDto.getDescription());
             assertEquals(technic.getPrice(), technicReadDto.getPrice());
             assertEquals(technic.getAmount(), technicReadDto.getAmount());
-        }
     }
 
     @Test
