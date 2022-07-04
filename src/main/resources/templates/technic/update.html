@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineStore</title>
+    <style>
+        body {line-height: 1.5}
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Изменить товар:</h1>
+<form th:action="@{/store/{value}/{id}/update(value=${technic.category}, id=${technic.id})}" method="post" th:object="${technic}">
+<label  for="name">Имя:
+    <input id="name" type="text" name="name" th:value="*{name}">
+</label><br>
+<label for="description">описание:
+    <input id="description" type="text" name="description" th:value="*{description}">
+</label><br>
+<label for="price">Цена:
+    <input id="price" type="number" name="price" th:value="*{price}">
+</label><br>
+<label for="amount">Колличество:
+    <input id="amount" type="number" name="amount" th:value="*{amount}">
+</label><br>
+<button type="submit">Изменить</button>
+</form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

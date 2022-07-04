@@ -65,6 +65,26 @@ public class TechnicService {
                 .orElseThrow();
     }
 
+    public List<TechnicReadDto> findByUserIdBasket(Long id){
+        return technicRepository.findByUserIdBasket(id).stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Optional<TechnicReadDto> update(Long id, TechnicCreateDto technicCreateDto) {
+        return technicRepository.findById(id)
+                .map(technic -> {
+                    technic.setName(technicCreateDto.getName());
+                    technic.setDescription(technicCreateDto.getDescription());
+                    technic.setPrice(technicCreateDto.getPrice());
+                    technic.setAmount(technicCreateDto.getAmount());
+                    return technic;
+                })
+                .map(technicRepository::saveAndFlush)
+                .map(mapper::map);
+    }
+
     public Optional<byte[]> findAvatar(Long id) {
         return technicRepository.findById(id)
                 .map(Technic::getImage)
@@ -74,8 +94,10 @@ public class TechnicService {
 
     @SneakyThrows
     private void uploadImage(MultipartFile image, String directory) {
-        if (!image.isEmpty()){
-            imageService.upload(directory + "/" + image.getOriginalFilename(), image.getInputStream());
+        if(image != null) {
+            if (!image.isEmpty()) {
+                imageService.upload(directory + "/" + image.getOriginalFilename(), image.getInputStream());
+            }
         }
     }
 }

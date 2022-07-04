@@ -75,3 +75,12 @@ VALUES ('Apple iPhone 13 Pro Max 256GB', 'PHONE','diagonal	6.7 ″ RAM 6GB memor
        ('Apple iPhone 13 256GB', 'PHONE', 'diagonal	6.1 RAM	4GB SSD	256GB battery	3240 mAh', 3999, 6, 'PHONE/iPhone13256.png'),
        ('MultiOffice 6A95ED8H05IV5', 'COMPUTER', 'AMD A6	9500E RAM	8GB AMD Radeon R5 HDD	500GB DOS', 659, 2, 'COMPUTER/milti.png'),
        ('Sony PlayStation 4 Slim 500GB', 'CONSOLE', '500GB Full HD (1080p) HDR', 1000, 3, 'CONSOLE/ps.png');
+
+
+INSERT INTO basket (users_id, technic_id)
+VALUES (5, 6),
+       (5, 17),
+       (5, 20),
+       (5, 28),
+       (5, 41),
+       (5, 43);

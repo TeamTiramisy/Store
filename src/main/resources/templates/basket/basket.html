@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <style>
+        body {
+            font-size: 20px
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Корзина:</h1>
+<div th:each="technic : ${technics}">
+    <p>
+    <form style="float: right" th:action="@{/store/basket/{id}/delete(id=${technic.id})}" method="post">
+        <button type="submit">Удалить</button>
+    </form>
+    <img th:if="${technic.image}"
+         th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
+         alt="Product image">
+    <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
+    <strong style="font-size: 25px" th:text="|&emsp;&emsp;${technic.price}$|">price</strong>
+    </p>
+</div>
+</body>
+</html>

@@ -21,6 +21,7 @@ import static com.dmdev.store.dto.TechnicCreateDto.*;
 import static com.dmdev.store.dto.TechnicCreateDto.Fields.*;
 import static org.hamcrest.collection.IsCollectionWithSize.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,7 +46,8 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findAllByCategoryTest(){
-        mockMvc.perform(get("/store/PHONE"))
+        mockMvc.perform(get("/store/PHONE")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("technic/technic"))
                 .andExpect(model().attributeExists("technics"))
@@ -96,22 +98,46 @@ class TechnicControllerTest {
                 .param(category, "PHONE")
                 .param(description, "test")
                 .param(price, "1")
-                .param(amount, "1")
-                .param(image,"test.png"))
+                .param(amount, "1"))
                 .andExpectAll(
                         status().is3xxRedirection(),
-                        redirectedUrl("/store/admin/add"));
+                        redirectedUrlPattern("/store/PHONE/{\\d+}"));
     }
 
     @Test
     @SneakyThrows
     void createValidTest(){
         mockMvc.perform(post("/store/admin/add/create")
-                        .with(SecurityMockMvcRequestPostProcessors.user("test@gmail.com").authorities(Role.ADMIN)))
+                        .with(user("test@gmail.com").authorities(Role.ADMIN)))
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/admin/add")
                 );
+    }
+
+    @Test
+    @SneakyThrows
+    void pageUpdateTest(){
+        mockMvc.perform(get("/store/PHONE/1/update"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("technic/update"))
+                .andExpect(model().attributeExists("technic"));
+    }
+
+    @Test
+    @SneakyThrows
+    void updateTest(){
+        mockMvc.perform(post("/store/PHONE/1/update")
+                .param(name, "test")
+                .param(description, "test")
+                .param(price, "6")
+                .param(amount, "6")
+        )
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/PHONE/1/update")
+                );
+
     }
 
 }

@@ -40,6 +40,11 @@ public class UserService implements UserDetailsService {
                 .map(mapper::map);
     }
 
+    public Optional<UserReadDto> findByEmail(String email){
+        return userRepository.findByEmail(email)
+                .map(mapper::map);
+    }
+
     @Transactional
     public Optional<UserReadDto> updateRole(Long id){
         return userRepository.findById(id).

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dmdev.store.database.entity.Category.PHONE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,14 +18,11 @@ class TechnicRepositoryTest {
 
     private final TechnicRepository technicRepository;
 
-    private static final Technic technic = Technic.builder()
-            .id(1L)
+    private static final Technic TECHNIC = Technic.builder()
+            .id(66L)
             .name("Apple iPhone 13 256GB")
             .category(Category.PHONE)
-            .description("Диагональ экрана\t6.1 ″ Оперативная память\t4 Гб Постоянная память\t" +
-                    "256 Гб Версия операционной системы\tiOS 15 Дополнительный модуль камеры\t" +
-                    "есть, сверхширокоугольный Разрешение камеры\t12 Мп Кол-во SIM-карт\t" +
-                    "2 Емкость аккумулятора\t3240 мАч")
+            .description("diagonal\t6.1 RAM\t4GB SSD\t256GB battery\t3240 mAh")
             .price(3999)
             .amount(6)
             .image("PHONE/iPhone13256.png")
@@ -36,7 +34,7 @@ class TechnicRepositoryTest {
 
         assertEquals(17, phone.size());
 
-        assertTrue(phone.contains(technic));
+        assertTrue(phone.contains(TECHNIC));
     }
 
     @Test
@@ -45,7 +43,19 @@ class TechnicRepositoryTest {
 
         assertEquals(5, phone.size());
 
-        assertTrue(phone.contains(technic));
+        assertTrue(phone.contains(TECHNIC));
+    }
+
+    @Test
+    void findByUserIdBasketTest(){
+        List<Technic> technics = technicRepository.findByUserIdBasket(5L);
+
+        assertEquals(6, technics.size());
+
+        List<String> list = technics.stream()
+                .map(Technic::getName).toList();
+
+        assertTrue(list.contains("Samsung Galaxy M12 64GB"));
     }
 
 }

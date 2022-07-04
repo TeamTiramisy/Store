@@ -90,7 +90,7 @@ class TechnicServiceTest {
 
     @Test
     @SneakyThrows
-    void createTest(){
+    void createTest() {
         File file = new File("src/test/resources/Huawei9.png");
         try (var inputstream = new FileInputStream(file)) {
             TechnicCreateDto technic = TechnicCreateDto.builder()
@@ -99,7 +99,7 @@ class TechnicServiceTest {
                     .description("test")
                     .price(1)
                     .amount(1)
-                    .image( new MockMultipartFile("test", new byte[0]))
+                    .image(new MockMultipartFile("test", new byte[0]))
                     .build();
 
             TechnicReadDto technicReadDto = technicService.create(technic);
@@ -110,6 +110,39 @@ class TechnicServiceTest {
             assertEquals(technic.getPrice(), technicReadDto.getPrice());
             assertEquals(technic.getAmount(), technicReadDto.getAmount());
         }
+    }
+
+    @Test
+    void findByUserIdBasketTest() {
+        List<TechnicReadDto> technics = technicService.findByUserIdBasket(5L);
+
+        assertEquals(6, technics.size());
+
+        List<String> list = technics.stream()
+                .map(TechnicReadDto::getName).toList();
+
+        assertTrue(list.contains("Samsung Galaxy M12 64GB"));
+    }
+
+    @Test
+    void updateTest() {
+        TechnicCreateDto technicCreateDto = TechnicCreateDto.builder()
+                .name("test")
+                .description("test")
+                .price(3)
+                .amount(3)
+                .build();
+
+        Optional<TechnicReadDto> maybeTechnic = technicService.update(1L, technicCreateDto);
+
+        assertTrue(maybeTechnic.isPresent());
+
+        maybeTechnic.ifPresent(technic-> {
+            assertEquals(technicCreateDto.getName(), technic.getName());
+            assertEquals(technicCreateDto.getDescription(), technic.getDescription());
+            assertEquals(technicCreateDto.getPrice(), technic.getPrice());
+            assertEquals(technicCreateDto.getAmount(), technic.getAmount());
+        });
     }
 
 }

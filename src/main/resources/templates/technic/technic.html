@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>OnlineStore</title>
+    <style>
+        body {
+            font-size: 20px
+        }
+
+        h1 {
+            font-size: 40px
+        }
+
+        .bt {
+            margin-left: 20px;
+        }
+
+        .f {
+            float: right;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{logout :: logout}"></div>
@@ -14,10 +32,21 @@
 <h1 th:if="${category eq 'LAPTOP'}">Ноутбуки:</h1>
 <h1 th:if="${category eq 'CONSOLE'}">Игровые приставки:</h1>
 <div th:each="technic : ${technics}">
+    <p>
+    <form style="float: right" th:if="${technic.amount > 0 and user.blacklist eq 'NO'}" th:action="@{/store/basket/{id}(id=${technic.id})}" method="post">
+        <button class="bt" type="submit">В корзину</button>
+    </form>
+        <a class="f" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" th:href="@{/store/{value}/{id}/update(value=${technic.category}, id=${technic.id})}">
+            <button class="bt" type="button">Изменить</button>
+        </a>
     <img th:if="${technic.image}"
          th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
          alt="Product image">
     <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
+    <strong th:text="|&emsp;&emsp;${technic.price}$|">price</strong>
+        <span th:if="${technic.amount eq 0}" style="float: right">Нет в наличии</span>
+    </p>
+    </p>
 </div>
 </body>
 </html>

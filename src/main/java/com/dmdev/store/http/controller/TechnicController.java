@@ -4,8 +4,11 @@ import com.dmdev.store.database.entity.Category;
 import com.dmdev.store.dto.TechnicCreateDto;
 import com.dmdev.store.dto.TechnicReadDto;
 import com.dmdev.store.service.TechnicService;
+import com.dmdev.store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 @Controller
 @RequestMapping("/store")
 @RequiredArgsConstructor
 public class TechnicController {
 
     private final TechnicService technicService;
+    private final UserService userService;
 
     @GetMapping
     public String findAllCategory(Model model){
@@ -29,7 +35,9 @@ public class TechnicController {
     }
 
     @GetMapping("/{value}")
-    public String findAllByCategory(@PathVariable Category value, Model model){
+    public String findAllByCategory(@PathVariable Category value, Model model,
+                                    @AuthenticationPrincipal UserDetails userDetails){
+        model.addAttribute("user", userService.findByEmail(userDetails.getUsername()).orElseThrow());
         model.addAttribute("category", value.name());
         model.addAttribute("technics", technicService.findAllByCategory(value));
         return "technic/technic";
@@ -43,6 +51,32 @@ public class TechnicController {
                 return "technic/product";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{value}/{id}/update")
+    public String pageUpdate(@PathVariable Long id, Model model){
+        technicService.findById(id)
+                .map(technicReadDto -> {
+                    model.addAttribute("technic", technicReadDto);
+                    return "technic/update";
+                })
+                .orElseThrow((() -> new ResponseStatusException(NOT_FOUND)));
+        return "technic/update";
+    }
+
+    @PostMapping("/{value}/{id}/update")
+    public String update(@PathVariable Long id, Model model, @Validated TechnicCreateDto technic,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("technic", technic);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/store/{value}/{id}/update";
+        }
+        return technicService.update(id, technic)
+                .map(it -> "redirect:/store/{value}/{id}/update")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
     }
 
     @GetMapping("/search")
