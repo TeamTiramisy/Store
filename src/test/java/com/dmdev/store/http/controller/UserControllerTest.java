@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
+@WithMockUser(username = "ruslankarina1.2@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 class UserControllerTest {
 
     private final MockMvc mockMvc;
@@ -117,8 +117,7 @@ class UserControllerTest {
     @Test
     @SneakyThrows
     void findIdTest() {
-        mockMvc.perform(get("/store/account")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(get("/store/account"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/account"))
                 .andExpect(model().attributeExists("user"));
@@ -128,7 +127,6 @@ class UserControllerTest {
     @SneakyThrows
     void updateTest(){
         mockMvc.perform(post("/store/account/update")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN))
                         .param(firstname, "test")
                         .param(lastname, "test")
                         .param(email, "test@mail.ru")
@@ -143,12 +141,36 @@ class UserControllerTest {
 
     @Test
     @SneakyThrows
+    void updateValidTest(){
+        mockMvc.perform(post("/store/account/update")
+                        .param(firstname, "")
+                        .param(lastname, "test")
+                        .param(email, "")
+                        .param(rawPassword, "test")
+                        .param(tel, "+375297773311")
+                        .param(address, ""))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/account")
+                );
+    }
+
+    @Test
+    @SneakyThrows
     void deleteTest(){
-        mockMvc.perform(post("/store/account/delete")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(post("/store/account/delete"))
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/logout")
                 );
+    }
+
+    @Test
+    @SneakyThrows
+    void deleteExceptionTest(){
+        mockMvc.perform(post("/store/account/delete")
+                        .with(user("test@mail.ru").authorities(Role.ADMIN)))
+                .andExpect(
+                        status().is4xxClientError());
     }
 }

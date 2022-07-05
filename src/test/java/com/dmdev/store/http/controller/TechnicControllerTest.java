@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
+@WithMockUser(username = "ruslankarina1.2@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 class TechnicControllerTest {
 
     private final MockMvc mockMvc;
@@ -46,8 +46,7 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findAllByCategoryTest(){
-        mockMvc.perform(get("/store/PHONE")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(get("/store/PHONE"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("technic/technic"))
                 .andExpect(model().attributeExists("technics"))
@@ -57,8 +56,7 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findByIdTest(){
-        mockMvc.perform(get("/store/PHONE/1")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(get("/store/PHONE/1"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("technic/product"))
                 .andExpect(model().attributeExists("product"));
@@ -67,8 +65,7 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findByIdNotFoundTest(){
-        mockMvc.perform(get("/store/PHONE/100")
-                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(get("/store/PHONE/100"))
                 .andExpect(status().is4xxClientError());
     }
 
@@ -109,8 +106,7 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void createValidTest(){
-        mockMvc.perform(post("/store/admin/add/create")
-                        .with(user("test@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(post("/store/admin/add/create"))
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/admin/add")
@@ -142,6 +138,21 @@ class TechnicControllerTest {
                 .param(price, "6")
                 .param(amount, "6")
         )
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/PHONE/1/update")
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void updateValidTest(){
+        mockMvc.perform(post("/store/PHONE/1/update")
+                        .param(name, "")
+                        .param(description, "test")
+                        .param(price, "")
+                        .param(amount, "6")
+                )
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/PHONE/1/update")

@@ -54,4 +54,12 @@ class BasketControllerTest {
                         status().is3xxRedirection(),
                         redirectedUrl("/store/basket"));
     }
+
+    @Test
+    @SneakyThrows
+    void deleteExceptionTest(){
+        mockMvc.perform(post("/store/basket/66/delete"))
+                .andExpect(
+                        status().is4xxClientError());
+    }
 }
