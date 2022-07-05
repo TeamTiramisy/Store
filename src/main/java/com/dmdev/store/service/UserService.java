@@ -84,6 +84,24 @@ public class UserService implements UserDetailsService {
                 .orElseThrow();
     }
 
+    @Transactional
+    public Optional<UserReadDto> update(String email, UserCreateDto userCreateDto) {
+        return userRepository.findByEmail(email)
+                .map(user -> createMapper.copy(user, userCreateDto))
+                .map(userRepository::saveAndFlush)
+                .map(mapper::map);
+    }
+
+    @Transactional
+    public boolean delete(String username) {
+        return userRepository.findByEmail(username)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return true;
+                })
+                .orElse(false);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)

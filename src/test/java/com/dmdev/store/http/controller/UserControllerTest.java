@@ -1,6 +1,7 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.annotation.IT;
+import com.dmdev.store.database.entity.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.dmdev.store.dto.UserCreateDto.Fields.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -109,6 +111,44 @@ class UserControllerTest {
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("/store/registration")
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void findIdTest() {
+        mockMvc.perform(get("/store/account")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("user/account"))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    @SneakyThrows
+    void updateTest(){
+        mockMvc.perform(post("/store/account/update")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN))
+                        .param(firstname, "test")
+                        .param(lastname, "test")
+                        .param(email, "test@mail.ru")
+                        .param(rawPassword, "test")
+                        .param(tel, "+375297773311")
+                        .param(address, "Lenina"))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/account")
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void deleteTest(){
+        mockMvc.perform(post("/store/account/delete")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/logout")
                 );
     }
 }

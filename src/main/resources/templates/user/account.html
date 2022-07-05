@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Account</title>
+    <style>
+        body {line-height: 1.5}
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1>Личный аккаунт:</h1>
+<form action="/store/account/update" method="post" th:object="${user}">
+    <label for="firstname">Имя:
+        <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
+    </label><br>
+    <label for="lastname">Фамилия:
+        <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
+    </label><br>
+    <label for="email">Эл почта:
+        <input id="email" type="email" name="email" th:value="*{email}">
+    </label><br>
+    <label for="password">Пароль:
+        <input id="password" type="password" name="rawPassword" th:value="*{password}">
+    </label><br>
+    <label for="tel">Телефон:
+        <input id="tel" type="tel" name="tel" th:value="*{tel}">
+    </label><br>
+    <label for="address">Адрес:
+        <input id="address" type="text" name="address" th:value="*{address}">
+    </label><br>
+    <button type="submit">Изменить</button><br>
+</form>
+<form action="/store/account/delete" method="post">
+    <button type="submit">Удалить аккаунт</button>
+</form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>

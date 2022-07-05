@@ -57,7 +57,8 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findByIdTest(){
-        mockMvc.perform(get("/store/PHONE/1"))
+        mockMvc.perform(get("/store/PHONE/1")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("technic/product"))
                 .andExpect(model().attributeExists("product"));
@@ -66,7 +67,8 @@ class TechnicControllerTest {
     @Test
     @SneakyThrows
     void findByIdNotFoundTest(){
-        mockMvc.perform(get("/store/PHONE/100"))
+        mockMvc.perform(get("/store/PHONE/100")
+                        .with(user("ruslankarina1.2@gmail.com").authorities(Role.ADMIN)))
                 .andExpect(status().is4xxClientError());
     }
 
@@ -117,6 +119,13 @@ class TechnicControllerTest {
 
     @Test
     @SneakyThrows
+    void pageUpdateExceptionTest(){
+        mockMvc.perform(get("/store/PHONE/100/update"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @SneakyThrows
     void pageUpdateTest(){
         mockMvc.perform(get("/store/PHONE/1/update"))
                 .andExpect(status().is2xxSuccessful())
@@ -137,7 +146,26 @@ class TechnicControllerTest {
                         status().is3xxRedirection(),
                         redirectedUrl("/store/PHONE/1/update")
                 );
+    }
+
+
+    @Test
+    @SneakyThrows
+    void deleteTest(){
+        mockMvc.perform(post("/store/PHONE/1/delete"))
+                .andExpectAll(
+                        status().is3xxRedirection(),
+                        redirectedUrl("/store/PHONE")
+                );
 
     }
 
+    @Test
+    @SneakyThrows
+    void deleteExceptionTest(){
+        mockMvc.perform(post("/store/PHONE/100/delete"))
+                .andExpect(
+                        status().is4xxClientError());
+
+    }
 }

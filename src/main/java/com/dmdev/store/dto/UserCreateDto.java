@@ -19,11 +19,10 @@ public class UserCreateDto {
 
     Long id;
 
-    @NotEmpty
+
     @NotBlank
     String firstname;
 
-    @NotEmpty
     @NotBlank
     String lastname;
 
@@ -42,7 +41,6 @@ public class UserCreateDto {
 
     Role role;
 
-    @NotNull
     Gender gender;
 
     BlackList blacklist;

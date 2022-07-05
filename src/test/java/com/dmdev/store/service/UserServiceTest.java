@@ -23,7 +23,7 @@ class UserServiceTest {
     private final UserService userService;
 
     @Test
-    void findAllTest(){
+    void findAllTest() {
         List<UserReadDto> users = userService.findAll();
 
         assertEquals(5, users.size());
@@ -49,7 +49,7 @@ class UserServiceTest {
     }
 
     @Test
-    void findByIdTest(){
+    void findByIdTest() {
         Optional<UserReadDto> maybeUser = userService.findById(1L);
 
         assertTrue(maybeUser.isPresent());
@@ -69,27 +69,27 @@ class UserServiceTest {
     }
 
     @Test
-    void updateRoleTest(){
+    void updateRoleTest() {
         Optional<UserReadDto> maybeUser = userService.updateRole(USER_ID);
 
         assertTrue(maybeUser.isPresent());
 
-        maybeUser.ifPresent(user-> assertEquals("USER", user.getRole()));
+        maybeUser.ifPresent(user -> assertEquals("USER", user.getRole()));
 
 
     }
 
     @Test
-    void updateBlacklistTest(){
+    void updateBlacklistTest() {
         Optional<UserReadDto> maybeUser = userService.updateBlacklist(USER_ID);
 
         assertTrue(maybeUser.isPresent());
 
-        maybeUser.ifPresent(user-> assertEquals("YES", user.getBlacklist()));
+        maybeUser.ifPresent(user -> assertEquals("YES", user.getBlacklist()));
     }
 
     @Test
-    void createTest(){
+    void createTest() {
         UserCreateDto user = UserCreateDto.builder()
                 .firstname("test")
                 .lastname("test")
@@ -111,7 +111,7 @@ class UserServiceTest {
     }
 
     @Test
-    void loadUserByUsernameTest(){
+    void loadUserByUsernameTest() {
         UserDetails user = userService.loadUserByUsername("rusya-niyazov@mail.ru");
 
         assertEquals("rusya-niyazov@mail.ru", user.getUsername());
@@ -119,8 +119,40 @@ class UserServiceTest {
     }
 
     @Test
-    void loadUserByUsernameExceptionTest(){
+    void loadUserByUsernameExceptionTest() {
         assertThrows(UsernameNotFoundException.class,
                 () -> userService.loadUserByUsername("test@mail.ru"));
+    }
+
+    @Test
+    void updateTest() {
+        UserCreateDto userCreate = UserCreateDto.builder()
+                .firstname("test")
+                .lastname("test")
+                .email("test@mail.ru")
+                .rawPassword("333")
+                .tel("345653")
+                .address("Lenina")
+                .build();
+
+        Optional<UserReadDto> maybeUser = userService.update("rusya-niyazov@mail.ru", userCreate);
+
+        assertTrue(maybeUser.isPresent());
+
+        maybeUser.ifPresent(user ->{
+            assertEquals(userCreate.getFirstname(), user.getFirstname());
+            assertEquals(userCreate.getLastname(), user.getLastname());
+            assertEquals(userCreate.getEmail(), user.getEmail());
+            assertEquals(userCreate.getRawPassword(), user.getPassword());
+            assertEquals(userCreate.getTel(), user.getTel());
+            assertEquals(userCreate.getAddress(), user.getAddress());
+        });
+    }
+
+    @Test
+    void deleteTest(){
+        assertTrue(userService.delete("rusya-niyazov@mail.ru"));
+
+        assertFalse(userService.delete("test@mail.ru"));
     }
 }

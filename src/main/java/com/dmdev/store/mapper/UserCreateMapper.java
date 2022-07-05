@@ -38,4 +38,15 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User>{
 
         return user;
     }
+
+    public User copy(User user, UserCreateDto userCreateDto){
+        user.setFirstname(userCreateDto.getFirstname());
+        user.setLastname(userCreateDto.getLastname());
+        user.setEmail(userCreateDto.getEmail());
+        user.setPassword(userCreateDto.getRawPassword());
+        user.setTel(userCreateDto.getTel());
+        user.setAddress(userCreateDto.getAddress());
+
+        return user;
+    }
 }

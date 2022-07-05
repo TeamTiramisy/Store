@@ -5,6 +5,7 @@ import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -85,5 +86,39 @@ public class UserController {
             return "redirect:/login";
     }
 
+    @GetMapping("/account")
+    public String findId(@AuthenticationPrincipal UserDetails userDetails, Model model){
+        return userService.findByEmail(userDetails.getUsername())
+                .map(user -> {
+                    model.addAttribute("user", user);
+                    return "user/account";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/account/update")
+    public String update(@AuthenticationPrincipal UserDetails userDetails,
+                         @Validated UserCreateDto userCreateDto,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("user", userCreateDto);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/store/account";
+        }
+
+        String username = userDetails.getUsername();
+        return userService.update(username,userCreateDto)
+                .map(it -> "redirect:/store/account")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/account/delete")
+    public String delete(@AuthenticationPrincipal UserDetails userDetails){
+        if (!userService.delete(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/logout";
+    }
 
 }

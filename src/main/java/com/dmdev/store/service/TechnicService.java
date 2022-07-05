@@ -85,6 +85,17 @@ public class TechnicService {
                 .map(mapper::map);
     }
 
+    @Transactional
+    public boolean delete(Long id) {
+        return technicRepository.findById(id)
+                .map(technic -> {
+                    technicRepository.delete(technic);
+                    technicRepository.flush();
+                    return true;
+                })
+                .orElse(false);
+    }
+
     public Optional<byte[]> findAvatar(Long id) {
         return technicRepository.findById(id)
                 .map(Technic::getImage)

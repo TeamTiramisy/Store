@@ -142,4 +142,10 @@ class TechnicServiceTest {
         });
     }
 
+    @Test
+    void deleteTest(){
+        assertTrue(technicService.delete(1L));
+        assertFalse(technicService.delete(100L));
+    }
+
 }

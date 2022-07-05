@@ -26,6 +26,9 @@
     <a href="/store/admin">
         <button  class="btn" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" type="button">Кабинет админа</button>
     </a>
+    <a href="/store/account">
+        <button class="btn" type="button">Аккаунт</button>
+    </a>
     <a href="/store/basket">
         <button class="btn" type="button">Корзина</button>
     </a>

@@ -29,14 +29,14 @@ public class TechnicController {
     private final UserService userService;
 
     @GetMapping
-    public String findAllCategory(Model model){
+    public String findAllCategory(Model model) {
         model.addAttribute("categories", technicService.findAllCategory());
         return "technic/category";
     }
 
     @GetMapping("/{value}")
     public String findAllByCategory(@PathVariable Category value, Model model,
-                                    @AuthenticationPrincipal UserDetails userDetails){
+                                    @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("user", userService.findByEmail(userDetails.getUsername()).orElseThrow());
         model.addAttribute("category", value.name());
         model.addAttribute("technics", technicService.findAllByCategory(value));
@@ -44,17 +44,19 @@ public class TechnicController {
     }
 
     @GetMapping("/{value}/{id}")
-    public String findById(@PathVariable Long id, Model model){
+    public String findById(@PathVariable Long id, Model model,
+                           @AuthenticationPrincipal UserDetails userDetails) {
+        model.addAttribute("user", userService.findByEmail(userDetails.getUsername()).orElseThrow());
         return technicService.findById(id)
                 .map(technicReadDto -> {
-                        model.addAttribute("product" , technicReadDto);
-                return "technic/product";
+                    model.addAttribute("product", technicReadDto);
+                    return "technic/product";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{value}/{id}/update")
-    public String pageUpdate(@PathVariable Long id, Model model){
+    public String pageUpdate(@PathVariable Long id, Model model) {
         technicService.findById(id)
                 .map(technicReadDto -> {
                     model.addAttribute("technic", technicReadDto);
@@ -67,8 +69,8 @@ public class TechnicController {
     @PostMapping("/{value}/{id}/update")
     public String update(@PathVariable Long id, Model model, @Validated TechnicCreateDto technic,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors()){
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("technic", technic);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/store/{value}/{id}/update";
@@ -79,14 +81,22 @@ public class TechnicController {
 
     }
 
+    @PostMapping("/{value}/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        if (!technicService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/store/{value}";
+    }
+
     @GetMapping("/search")
-    public String findAllByNameContaining(@RequestParam String search, Model model){
+    public String findAllByNameContaining(@RequestParam String search, Model model) {
         model.addAttribute("technics", technicService.findByNameContainingIgnoreCase(search));
         return "technic/search";
     }
 
     @GetMapping("/admin/add")
-    public String addProduct(Model model, @ModelAttribute("technic") TechnicCreateDto technic){
+    public String addProduct(Model model, @ModelAttribute("technic") TechnicCreateDto technic) {
         model.addAttribute("technic", technic);
         model.addAttribute("category", Category.values());
         return "technic/add";
@@ -95,8 +105,8 @@ public class TechnicController {
     @PostMapping("/admin/add/create")
     public String create(@ModelAttribute @Validated TechnicCreateDto technic,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
-        if (bindingResult.hasErrors()){
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("technic", technic);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/store/admin/add";
