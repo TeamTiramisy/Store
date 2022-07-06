@@ -66,7 +66,8 @@ class TechnicControllerTest {
     @SneakyThrows
     void findByIdNotFoundTest(){
         mockMvc.perform(get("/store/PHONE/100"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test
@@ -117,7 +118,8 @@ class TechnicControllerTest {
     @SneakyThrows
     void pageUpdateExceptionTest(){
         mockMvc.perform(get("/store/PHONE/100/update"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test
@@ -175,8 +177,8 @@ class TechnicControllerTest {
     @SneakyThrows
     void deleteExceptionTest(){
         mockMvc.perform(post("/store/PHONE/100/delete"))
-                .andExpect(
-                        status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
 
     }
 }

@@ -3,14 +3,16 @@ package com.dmdev.store.http.controller;
 import com.dmdev.store.service.BasketService;
 import com.dmdev.store.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/store")
@@ -27,8 +29,80 @@ public class OrderController {
         return "order/ordering";
     }
 
-//    @PostMapping("/ordering")
-//    public String create(@RequestParam("amount") Integer[] amounts){
-//        return "order/ordering";
-//    }
+    @GetMapping("/order")
+    public String findByUser(Model model,
+                                @AuthenticationPrincipal UserDetails userDetails){
+        model.addAttribute("orders", orderService.findAllByUserId(userDetails.getUsername()));
+        return "order/order";
+    }
+
+    @PostMapping("/ordering")
+    public String create(@RequestParam("amount") Integer[] amounts,
+                         @AuthenticationPrincipal UserDetails userDetails){
+        orderService.create(userDetails.getUsername(), amounts);
+        return "redirect:/store/order";
+    }
+
+    @PostMapping("/order/{id}/delete")
+    public String delete(@PathVariable Long id){
+        if (!orderService.delete(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/store/order";
+    }
+
+    @GetMapping("/order/{name}")
+    public String findAllByProduct(Model model, @PathVariable String name){
+        model.addAttribute("name", name);
+        model.addAttribute("orders", orderService.findAllByProduct(name));
+        return "order/product";
+    }
+
+    @GetMapping("/admin/orders")
+    public String findAll(Model model){
+        model.addAttribute("orders", orderService.findAll());
+        return "order/orders";
+    }
+
+    @PostMapping("/admin/orders/delete")
+    public String deleteDateClose(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+        orderService.deleteDateClose(date);
+        return "redirect:/store/admin/orders";
+    }
+
+    @GetMapping("/admin/orders/processing")
+    public String findAllProcessing(Model model){
+        model.addAttribute("orders", orderService.findAll());
+        return "order/processing";
+    }
+
+    @PostMapping("/admin/orders/processing/{id}/accept")
+    public String updateAccept(@PathVariable Long id){
+        return orderService.updateAccept(id)
+                .map(it -> "redirect:/store/admin/orders/processing")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
+    @PostMapping("/admin/orders/processing/{id}/reject")
+    public String updateReject(@PathVariable Long id){
+        return orderService.updateReject(id)
+                .map(it -> "redirect:/store/admin/orders/processing")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
+    @GetMapping("/admin/orders/completed")
+    public String findAllCompleted(Model model){
+        model.addAttribute("orders", orderService.findAll());
+        return "order/completed";
+    }
+
+    @PostMapping("/admin/orders/processing/{id}/completed")
+    public String updatCompleted(@PathVariable Long id){
+        return orderService.updateCompleted(id)
+                .map(it -> "redirect:/store/admin/orders/completed")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
 }

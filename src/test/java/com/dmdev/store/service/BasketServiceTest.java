@@ -63,8 +63,13 @@ class BasketServiceTest {
     @Test
     void deleteTest(){
         assertTrue(basketService.delete("ruslankarina1.2@gmail.com", 6L));
-
         assertFalse(basketService.delete("ruslankarina1.2@gmail.com", 66L));
+    }
+
+    @Test
+    void deleteByUserIdTest(){
+        assertTrue(basketService.delete(5L));
+        assertFalse(basketService.delete(66L));
     }
 
 }

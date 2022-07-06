@@ -59,7 +59,7 @@ class BasketControllerTest {
     @SneakyThrows
     void deleteExceptionTest(){
         mockMvc.perform(post("/store/basket/66/delete"))
-                .andExpect(
-                        status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 }

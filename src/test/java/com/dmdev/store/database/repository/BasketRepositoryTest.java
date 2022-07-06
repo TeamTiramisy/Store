@@ -35,4 +35,19 @@ class BasketRepositoryTest {
             });
         }
     }
+
+    @Test
+    void deleteAllByUserTest(){
+        Optional<User> maybeUser = userRepository.findById(5L);
+
+        maybeUser.ifPresent(basketRepository::deleteAllByUser);
+
+        assertTrue(basketRepository.findById(1L).isEmpty());
+        assertTrue(basketRepository.findById(2L).isEmpty());
+        assertTrue(basketRepository.findById(3L).isEmpty());
+        assertTrue(basketRepository.findById(4L).isEmpty());
+        assertTrue(basketRepository.findById(5L).isEmpty());
+
+
+    }
 }

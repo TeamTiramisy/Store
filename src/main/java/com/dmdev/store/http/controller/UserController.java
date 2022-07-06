@@ -1,7 +1,9 @@
 package com.dmdev.store.http.controller;
 
 import com.dmdev.store.database.entity.Gender;
+import com.dmdev.store.database.entity.Status;
 import com.dmdev.store.dto.UserCreateDto;
+import com.dmdev.store.service.OrderService;
 import com.dmdev.store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Collection;
 import java.util.List;
 
+import static com.dmdev.store.database.entity.Status.ACCEPTED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Controller
@@ -29,6 +32,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class UserController {
 
     private final UserService userService;
+    private final OrderService orderService;
 
     @GetMapping("/admin")
     public String pageAdmin() {
@@ -91,6 +95,8 @@ public class UserController {
         return userService.findByEmail(userDetails.getUsername())
                 .map(user -> {
                     model.addAttribute("user", user);
+                    model.addAttribute("orders",
+                            orderService.findAllByStatusByUserId(userDetails.getUsername()));
                     return "user/account";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

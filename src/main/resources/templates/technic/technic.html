@@ -39,6 +39,9 @@
         <a class="f" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" th:href="@{/store/{value}/{id}/update(value=${technic.category}, id=${technic.id})}">
             <button class="bt" type="button">Изменить</button>
         </a>
+        <a class="f" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" th:href="@{/store/order/{name}(name=${technic.name})}">
+            <button class="bt" type="button">Заказы с товаром</button>
+        </a>
     <img th:if="${technic.image}"
          th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
          alt="Product image">

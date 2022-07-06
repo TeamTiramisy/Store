@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineStore</title>
+    <style>
+        .tab {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{logout :: logout}"></div>
+<div th:insert="~{startline :: start}"></div>
+<h1 th:text="|Заказы с ${name}:|"></h1>
+<table border="1px" class="tab">
+    <tr>
+        <th width="50">Номер</th>
+        <th width="600">Товары и количество в заказе</th>
+        <th width="80">Дата оформления заказа</th>
+        <th width="80">Дата закрытия заказа</th>
+        <th width="120">Статус</th>
+        <th width="60">Цена</th>
+        <th width="100">Заказчика</th>
+    </tr>
+    <tr th:each="order : ${orders}">
+        <td width="50" th:text="${order.id}">Id</td>
+        <td width="600" th:text="${order.product}">Product</td>
+        <td width="80" th:text="${order.dateRegistration}">Date</td>
+        <td width="80">
+                <span th:if="${order.dateClose ne '1900-01-01'}" th:text="${order.dateClose}">
+                    Date
+                </span>
+        </td>
+        <td width="120">
+            <span th:if="${order.status eq 'PROCESSING'}">На обработке</span>
+            <span th:if="${order.status eq 'ACCEPTED'}">Принят</span>
+            <span th:if="${order.status eq 'REJECTED'}">Отклонен</span>
+            <span th:if="${order.status eq 'COMPLETED'}">Выполнен</span>
+        </td>
+        <td width="60" th:text="|${order.total}$|">Price</td>
+        <td width="100">
+            <a th:href="@{/store/admin/users/{id}(id=${order.user.id})}">
+                <span th:text="${order.user.email}">User</span>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

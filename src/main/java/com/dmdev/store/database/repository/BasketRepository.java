@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface BasketRepository extends JpaRepository<Basket, Long> {
 
     public Optional<Basket> findByUserAndTechnic(User user, Technic technic);
+
+    public void deleteAllByUser(User user);
 }

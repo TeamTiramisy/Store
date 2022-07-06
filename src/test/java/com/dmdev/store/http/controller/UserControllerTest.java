@@ -56,7 +56,8 @@ class UserControllerTest {
     @SneakyThrows
     void findByINotFoundTest() {
         mockMvc.perform(get("/store/admin/users/100"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test
@@ -120,7 +121,8 @@ class UserControllerTest {
         mockMvc.perform(get("/store/account"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/account"))
-                .andExpect(model().attributeExists("user"));
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("orders"));
     }
 
     @Test
@@ -170,7 +172,7 @@ class UserControllerTest {
     void deleteExceptionTest(){
         mockMvc.perform(post("/store/account/delete")
                         .with(user("test@mail.ru").authorities(Role.ADMIN)))
-                .andExpect(
-                        status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 }

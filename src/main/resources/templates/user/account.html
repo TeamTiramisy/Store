@@ -32,8 +32,12 @@
     </label><br>
     <button type="submit">Изменить</button><br>
 </form>
-<form action="/store/account/delete" method="post">
+<form th:if="${#lists.isEmpty(orders)}" action="/store/account/delete" method="post">
     <button type="submit">Удалить аккаунт</button>
+</form>
+<form th:if="${not #lists.isEmpty(orders)}" action="/store/account/delete" method="post">
+    <button disabled="disabled" type="submit">Удалить аккаунт</button><br>
+    <span style="color: red">Вы не можете удалить аккаунт пока ваши заказы не будут закрыты!</span>
 </form>
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>

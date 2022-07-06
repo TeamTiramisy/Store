@@ -19,4 +19,16 @@ public class TechnicReadMapper implements Mapper<Technic, TechnicReadDto> {
                 .image(object.getImage())
                 .build();
     }
+
+    public TechnicReadDto copy(TechnicReadDto technicReadDto, Integer amount) {
+        return TechnicReadDto.builder()
+                .id(technicReadDto.getId())
+                .name(technicReadDto.getName())
+                .category(technicReadDto.getCategory())
+                .description(technicReadDto.getDescription())
+                .price(technicReadDto.getPrice())
+                .amount(amount)
+                .image(technicReadDto.getImage())
+                .build();
+    }
 }

@@ -83,4 +83,14 @@ public class BasketService {
                 })
                 .orElse(false);
     }
+
+    @Transactional
+    public boolean delete(Long id){
+        return userRepository.findById(id)
+                .map(user -> {
+                    basketRepository.deleteAllByUser(user);
+                    return true;
+                })
+                .orElse(false);
+    }
 }
