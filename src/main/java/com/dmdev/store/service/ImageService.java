@@ -16,7 +16,7 @@ import static java.nio.file.StandardOpenOption.*;
 @RequiredArgsConstructor
 public class ImageService {
 
-    @Value("${app.image.bucket:C:/Users/User/Store/image}")
+    @Value("${app.image.bucket:C:/Users/37529/IdeaProjects/Store/image}")
     private final String path;
 
     @SneakyThrows

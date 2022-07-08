@@ -1,5 +1,6 @@
 package com.dmdev.store.http.controller;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Role;
 import com.dmdev.store.service.TechnicService;
@@ -19,11 +20,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-@WithMockUser(username = "ruslankarina1.2@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
-class BasketControllerTest {
+class BasketControllerTest extends StoreTest {
 
     private final MockMvc mockMvc;
 

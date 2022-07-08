@@ -1,5 +1,6 @@
 package com.dmdev.store.http.controller;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Role;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-@IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-@WithMockUser(username = "ruslankarina1.2@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
-class UserControllerTest {
+class UserControllerTest extends StoreTest {
 
     private final MockMvc mockMvc;
 

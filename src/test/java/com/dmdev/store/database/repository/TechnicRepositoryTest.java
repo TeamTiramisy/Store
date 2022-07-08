@@ -1,5 +1,6 @@
 package com.dmdev.store.database.repository;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Category;
 import com.dmdev.store.database.entity.Technic;
@@ -12,9 +13,8 @@ import java.util.stream.Collectors;
 import static com.dmdev.store.database.entity.Category.PHONE;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class TechnicRepositoryTest {
+class TechnicRepositoryTest extends StoreTest {
 
     private final TechnicRepository technicRepository;
 

@@ -1,5 +1,6 @@
 package com.dmdev.store.service;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class ImageServiceTest {
+class ImageServiceTest extends StoreTest {
 
     private final ImageService imageService;
 

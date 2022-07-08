@@ -1,5 +1,6 @@
 package com.dmdev.store.database.repository;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.*;
 import com.dmdev.store.dto.OrderReadDto;
@@ -16,9 +17,8 @@ import static com.dmdev.store.database.entity.Gender.*;
 import static com.dmdev.store.database.entity.Role.ADMIN;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class OrderRepositoryTest {
+class OrderRepositoryTest extends StoreTest {
 
     private final OrderRepository orderRepository;
 

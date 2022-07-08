@@ -1,5 +1,6 @@
 package com.dmdev.store.database.repository;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.BlackList;
 import com.dmdev.store.database.entity.Gender;
@@ -15,9 +16,8 @@ import static com.dmdev.store.database.entity.Gender.*;
 import static com.dmdev.store.database.entity.Role.ADMIN;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class UserRepositoryTest {
+class UserRepositoryTest extends StoreTest {
 
     private final UserRepository userRepository;
 

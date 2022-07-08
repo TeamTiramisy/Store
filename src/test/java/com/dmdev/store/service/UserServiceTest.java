@@ -1,5 +1,6 @@
 package com.dmdev.store.service;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.dto.UserCreateDto;
 import com.dmdev.store.dto.UserReadDto;
@@ -14,9 +15,8 @@ import java.util.Optional;
 import static com.dmdev.store.database.entity.Gender.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class UserServiceTest {
+class UserServiceTest extends StoreTest {
 
     private static final Long USER_ID = 1L;
 

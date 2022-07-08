@@ -1,5 +1,6 @@
 package com.dmdev.store.service;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Order;
 import com.dmdev.store.database.entity.Status;
@@ -17,9 +18,8 @@ import java.util.Optional;
 import static com.dmdev.store.database.entity.Status.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class OrderServiceTest {
+class OrderServiceTest extends StoreTest {
 
     private final OrderService orderService;
     private final OrderRepository orderRepository;

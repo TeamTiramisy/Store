@@ -1,5 +1,6 @@
 package com.dmdev.store.database.repository;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Basket;
 import com.dmdev.store.database.entity.Technic;
@@ -12,9 +13,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class BasketRepositoryTest {
+class BasketRepositoryTest extends StoreTest {
 
     private final BasketRepository basketRepository;
     private final UserRepository userRepository;

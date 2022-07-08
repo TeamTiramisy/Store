@@ -1,5 +1,6 @@
 package com.dmdev.store.service;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.database.entity.Category;
 import com.dmdev.store.database.entity.Technic;
@@ -22,9 +23,8 @@ import java.util.Set;
 import static com.dmdev.store.database.entity.Category.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class TechnicServiceTest {
+class TechnicServiceTest extends StoreTest {
 
     private final TechnicService technicService;
     private static final TechnicReadDto technicReadDto = TechnicReadDto.builder()

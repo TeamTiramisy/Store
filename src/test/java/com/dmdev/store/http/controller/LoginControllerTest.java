@@ -1,5 +1,6 @@
 package com.dmdev.store.http.controller;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -11,10 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@IT
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-class LoginControllerTest {
+class LoginControllerTest extends StoreTest {
 
     private final MockMvc mockMvc;
 

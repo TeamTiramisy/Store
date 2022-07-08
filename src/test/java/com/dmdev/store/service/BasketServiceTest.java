@@ -1,5 +1,6 @@
 package com.dmdev.store.service;
 
+import com.dmdev.store.StoreTest;
 import com.dmdev.store.annotation.IT;
 import com.dmdev.store.dto.BasketCreateDto;
 import com.dmdev.store.dto.BasketReadDto;
@@ -12,9 +13,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class BasketServiceTest {
+class BasketServiceTest extends StoreTest {
 
     private final BasketService basketService;
 
