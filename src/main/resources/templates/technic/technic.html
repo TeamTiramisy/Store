@@ -25,29 +25,29 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1 th:if="${category eq 'PHONE'}">Телефоны:</h1>
-<h1 th:if="${category eq 'REFRIGERATOR'}">Холодильники:</h1>
-<h1 th:if="${category eq 'TV'}">Телевизоры:</h1>
-<h1 th:if="${category eq 'COMPUTER'}">Компьютеры:</h1>
-<h1 th:if="${category eq 'LAPTOP'}">Ноутбуки:</h1>
-<h1 th:if="${category eq 'CONSOLE'}">Игровые приставки:</h1>
+<h1 th:if="${category eq 'PHONE'}"><span th:text="|#{categories.phone}:|">Phone</span></h1>
+<h1 th:if="${category eq 'REFRIGERATOR'}"><span th:text="|#{categories.refrigerator}:|">Regrigerator</span></h1>
+<h1 th:if="${category eq 'TV'}"><span th:text="|#{categories.tv}:|">TV</span></h1>
+<h1 th:if="${category eq 'COMPUTER'}"><span th:text="|#{categories.computer}:|">Computer</span></h1>
+<h1 th:if="${category eq 'LAPTOP'}"><span th:text="|#{categories.laptop}:|">Laptop</span></h1>
+<h1 th:if="${category eq 'CONSOLE'}"><span th:text="|#{categories.console}:|">Console</span></h1>
 <div th:each="technic : ${technics}">
     <p>
     <form style="float: right" th:if="${technic.amount > 0 and user.blacklist eq 'NO'}" th:action="@{/store/basket/{id}(id=${technic.id})}" method="post">
-        <button class="bt" type="submit">В корзину</button>
+        <button class="bt" type="submit"><span th:text="#{product.button}">Basket</span></button>
     </form>
         <a class="f" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" th:href="@{/store/{value}/{id}/update(value=${technic.category}, id=${technic.id})}">
-            <button class="bt" type="button">Изменить</button>
+            <button class="bt" type="button"><span th:text="#{search.update}">Update</span></button>
         </a>
         <a class="f" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" th:href="@{/store/order/{name}(name=${technic.name})}">
-            <button class="bt" type="button">Заказы с товаром</button>
+            <button class="bt" type="button"><span th:text="#{search.orders}">Orders</span></button>
         </a>
     <img th:if="${technic.image}"
          th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
          alt="Product image">
     <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
     <strong th:text="|&emsp;&emsp;${technic.price}$|">price</strong>
-        <span th:if="${technic.amount eq 0}" style="float: right">Нет в наличии</span>
+        <span th:if="${technic.amount eq 0}" style="float: right"><span th:text="#{product.text}">Not</span></span>
     </p>
     </p>
 </div>

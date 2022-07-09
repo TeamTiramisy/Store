@@ -32,8 +32,14 @@ public class OrderController {
     @GetMapping("/order")
     public String findByUser(Model model,
                                 @AuthenticationPrincipal UserDetails userDetails){
-        model.addAttribute("orders", orderService.findAllByUserId(userDetails.getUsername()));
+        model.addAttribute("orders", orderService.findAllByUser(userDetails.getUsername()));
         return "order/order";
+    }
+
+    @GetMapping("/order/user/{id}")
+    public String findByUserId(@PathVariable("id") Long id, Model model){
+        model.addAttribute("orders", orderService.findAllByUser(id));
+        return "order/orderuser";
     }
 
     @PostMapping("/ordering")

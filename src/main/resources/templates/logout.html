@@ -24,19 +24,27 @@
 <body>
 <div class="d" th:fragment="logout">
     <a href="/store/admin">
-        <button  class="btn" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}" type="button">Кабинет админа</button>
+        <button  class="btn" th:if="${#authentication.authorities[0].authority eq 'ADMIN'}"
+                 type="button"><span th:text="#{logout.admin}">Admin page</span></button>
     </a>
     <a href="/store/account">
-        <button class="btn" type="button">Аккаунт</button>
+        <button class="btn" type="button"><span th:text="#{logout.account}">Account</span></button>
     </a>
     <a href="/store/order">
-        <button class="btn" type="button">Мои заказы</button>
+        <button class="btn" type="button"><span th:text="#{logout.orders}">Orders</span></button>
     </a>
     <a href="/store/basket">
-        <button class="btn" type="button">Корзина</button>
+        <button class="btn" type="button"><span th:text="#{logout.basket}">Basket</span></button>
     </a>
     <form action="/logout" method="post">
-        <button class="btn" type="submit">Выход</button>
+        <button class="btn" type="submit"><span th:text="#{logout.exit}">Logout</span></button>
+    </form>
+</div>
+
+<div th:fragment="locale">
+    <form action="">
+        <button name="lang" type="submit" value="en">EN</button>
+        <button name="lang" type="submit" value="ru">RU</button>
     </form>
 </div>
 </body>

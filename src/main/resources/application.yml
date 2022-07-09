@@ -22,6 +22,9 @@ spring:
             redirectUri: http://localhost:8080/login/oauth2/code/google
             scope: openid,email,profile
 
+  messages:
+    basename: messages
+
 springdoc:
   swagger-ui:
     oauth:

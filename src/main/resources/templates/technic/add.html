@@ -10,12 +10,12 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Добавить товар:</h1>
+<h1><span th:text="|#{add.h}:|">Add</span></h1>
 <form th:action="@{/store/admin/add/create}" enctype="multipart/form-data" method="post" th:object="${technic}">
-    <label for="name">Имя:
+    <label for="name"><span th:text="|#{add.name}:|">Name</span>
         <input id="name" type="text" name="name" th:value="*{name}">
     </label><br>
-    <label for="category">Категория:
+    <label for="category"><span th:text="|#{add.category}:|">Category</span>
         <select name="category" id="category">
             <option th:each="category : ${category}"
                     th:value="${category}"
@@ -24,19 +24,19 @@
             </option>
         </select>
     </label><br>
-    <label for="description">Описание:
+    <label for="description"><span th:text="|#{add.description}:|">Description</span>
         <input id="description" type="text" name="description" th:value="*{description}">
     </label><br>
-    <label for="price">Цена:
+    <label for="price"><span th:text="|#{add.price}:|">Price</span>
         <input id="price" type="number" name="price" th:value="*{price}">
     </label><br>
-    <label for="amount">Количество:
+    <label for="amount"><span th:text="|#{add.amount}:|">Amount</span>
         <input id="amount" type="number" name="amount" th:value="*{amount}">
     </label><br>
-    <label for="image">Картинка:
+    <label for="image"><span th:text="|#{add.image}:|">Image</span>
         <input id="image" type="file" name="image">
     </label><br>
-    <button type="submit">Добавить</button>
+    <button type="submit"><span th:text="#{add.add}">Add</span></button>
 </form>
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>

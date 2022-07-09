@@ -8,32 +8,35 @@
     </style>
 </head>
 <body>
-<h3>Регистрация:</h3>
+<h3><span th:text="|#{refrigeration.h}:|">Registration</span></h3>
 <form th:action="@{/store/create}" method="post" th:object="${user}">
-    <label for="firstname">Имя:
+    <label for="firstname"><span th:text="|#{account.firstname}:|">Firstname:</span>
         <input id="firstname" type="text" name="firstname" th:value="${user.firstname}">
     </label><br>
-    <label for="lastname">Фамилия:
+    <label for="lastname"><span th:text="|#{account.lastname}:|">Lastname:</span>
         <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
     </label><br>
-    <label for="email">Эл почта:
+    <label for="email"><span th:text="|#{account.email}:|">Email:</span>
         <input id="email" type="email" name="email" th:value="*{email}">
     </label><br>
-    <label for="rawPassword">Пароль:
+    <label for="rawPassword"><span th:text="|#{account.password}:|">Password:</span>
         <input id="rawPassword" type="password" name="rawPassword">
     </label><br>
-    <label for="tel">Телефон:
+    <label for="tel"><span th:text="|#{account.tel}:|">Tel:</span>
         <input id="tel" type="tel" name="tel" th:value="*{tel}">
     </label><br>
-    <label for="address">Адрес:
+    <label for="address"><span th:text="|#{account.address}:|">Address:</span>
         <input id="address" type="text" name="address" th:value="*{address}">
     </label><br>
-    <input type="radio" name="gender" th:value="${genders[0]}">Муж
+    <input type="radio" name="gender" th:value="${genders[0]}">
+    <span th:text="#{refrigeration.male}"></span>
     <br>
-    <input type="radio" name="gender" th:value="${genders[1]}">Жен
+    <input type="radio" name="gender" th:value="${genders[1]}">
+    <span th:text="#{refrigeration.female}"></span>
     <br>
-    <button type="submit">Отправить</button>
+    <button type="submit"><span th:text="#{refrigeration.button}">Send</span></button>
 </form>
+<div th:insert="~{logout :: locale}"></div>
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
 </div>

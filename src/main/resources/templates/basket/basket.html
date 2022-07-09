@@ -12,11 +12,11 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Корзина:</h1>
+<h1><span th:text="|#{basket.h}:|">Basket:</span></h1>
 <div th:each="technic : ${technics}">
     <p>
     <form style="float: right" th:action="@{/store/basket/{id}/delete(id=${technic.id})}" method="post">
-        <button type="submit">Удалить</button>
+        <button type="submit"><span th:text="#{basket.delete}">Delete</span></button>
     </form>
     <img th:if="${technic.image}"
          th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}"
@@ -26,7 +26,7 @@
     </p>
 </div>
 <a th:if="${not #lists.isEmpty(technics)}" href="/store/ordering">
-    <button type="button">Оформить заказ</button>
+    <button type="button"><span th:text="#{basket.orders}">Order</span></button>
 </a>
 </body>
 </html>

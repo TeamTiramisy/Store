@@ -18,11 +18,11 @@
 <h1 th:text="${product.name}">Product</h1>
 <form style="float: right" th:if="${product.amount > 0 and user.blacklist eq 'NO'}"
       th:action="@{/store/basket/{id}(id=${product.id})}" method="post">
-    <button class="bt" type="submit">В корзину</button>
+    <button class="bt" type="submit" th:text="#{product.button}">Basket</button>
 </form>
 <img th:src="@{/api/v1/store/{id}/avatar(id=${product.id})}" alt="Product image">
 <strong class="s" th:text="|${product.price}$|">Price</strong>
-    <span class="s" th:if="${product.amount eq 0}">Нет в наличии</span>
+    <span class="s" th:if="${product.amount eq 0}" th:text="#{product.text}">Not</span>
 <p th:text="${product.description}">Description</p>
 </body>
 </html>

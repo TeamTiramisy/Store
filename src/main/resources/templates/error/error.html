@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Ошибка</h1>
-<h3>страница не найдена</h3>
+<h1><span th:text="#{error.h1}">Error</span></h1>
+<h3><span th:text="#{error.message}">error</span></h3>
 </body>
 </html>

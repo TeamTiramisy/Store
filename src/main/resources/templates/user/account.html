@@ -10,34 +10,34 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Личный аккаунт:</h1>
+<h1><span th:text="#{account.h}">Account</span></h1>
 <form action="/store/account/update" method="post" th:object="${user}">
-    <label for="firstname">Имя:
+    <label for="firstname"><span th:text="|#{account.firstname}:|">Firstname:</span>
         <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
     </label><br>
-    <label for="lastname">Фамилия:
+    <label for="lastname"><span th:text="|#{account.lastname}:|">Lastname:</span>
         <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
     </label><br>
-    <label for="email">Эл почта:
+    <label for="email"><span th:text="|#{account.email}:|">Email:</span>
         <input id="email" type="email" name="email" th:value="*{email}">
     </label><br>
-    <label for="password">Пароль:
+    <label for="password"><span th:text="|#{account.password}:|">Password:</span>
         <input id="password" type="password" name="rawPassword" th:value="*{password}">
     </label><br>
-    <label for="tel">Телефон:
+    <label for="tel"><span th:text="|#{account.tel}:|">Tel:</span>
         <input id="tel" type="tel" name="tel" th:value="*{tel}">
     </label><br>
-    <label for="address">Адрес:
+    <label for="address"><span th:text="|#{account.address}:|">Address:</span>
         <input id="address" type="text" name="address" th:value="*{address}">
     </label><br>
-    <button type="submit">Изменить</button><br>
+    <button type="submit"><span th:text="#{account.send.button}">Update</span></button><br>
 </form>
 <form th:if="${#lists.isEmpty(orders)}" action="/store/account/delete" method="post">
-    <button type="submit">Удалить аккаунт</button>
+    <button type="submit"><span th:text="#{account.delete.button}">Delete</span></button>
 </form>
 <form th:if="${not #lists.isEmpty(orders)}" action="/store/account/delete" method="post">
     <button disabled="disabled" type="submit">Удалить аккаунт</button><br>
-    <span style="color: red">Вы не можете удалить аккаунт пока ваши заказы не будут закрыты!</span>
+    <span style="color: red" th:text="#{account.delete}">Delete</span>
 </form>
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>

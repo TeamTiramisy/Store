@@ -1,7 +1,6 @@
 package com.dmdev.store.service;
 
 import com.dmdev.store.database.entity.Order;
-import com.dmdev.store.database.entity.Status;
 import com.dmdev.store.database.entity.User;
 import com.dmdev.store.database.repository.OrderRepository;
 import com.dmdev.store.database.repository.UserRepository;
@@ -94,8 +93,15 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderReadDto> findAllByUserId(String username) {
+    public List<OrderReadDto> findAllByUser(String username) {
         User user = userRepository.findByEmail(username).orElseThrow();
+        return orderRepository.findAllByUser(user).stream()
+                .map(readMapper::map)
+                .toList();
+    }
+
+    public List<OrderReadDto> findAllByUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
         return orderRepository.findAllByUser(user).stream()
                 .map(readMapper::map)
                 .toList();

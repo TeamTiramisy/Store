@@ -13,7 +13,7 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Оформить заказ:</h1>
+<h1><span th:text="|#{ordering.h}:|">Order</span></h1>
 <div th:if="${not #lists.isEmpty(technics)}">
 <form action="/store/ordering" method="post">
     <p th:each="technic : ${technics}">
@@ -22,11 +22,11 @@
          alt="Product image">
     <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
     <strong style="font-size: 25px" th:text="|&emsp;&emsp;${technic.price}$|">price</strong>
-        <label style="float: right"  for="amount">Колличество:
+        <label style="float: right"  for="amount"><span th:text="|#{add.amount}:|">Amount</span>
             <input id="amount" name="amount" type="number" min="1" th:max="${technic.amount}" value="1">&emsp;&emsp;&emsp;&emsp;
         </label>
     </p>
-    <button type="submit">Подтвердить</button>
+    <button type="submit"><span th:text="#{ordering.confirm}">Send</span></button>
 </form>
 </div>
 </body>

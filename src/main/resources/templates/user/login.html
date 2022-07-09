@@ -9,23 +9,24 @@
 </head>
 <body>
 <form th:action="@{/login}" method="post">
-    <div style="color: red" th:if="${param.error}">Неверно</div>
-    <label for="username">Эл почта:
+    <div style="color: red" th:if="${param.error}"><span th:text="#{login.error}">Error</span></div>
+    <label for="username"><span th:text="|#{login.email}:|">Email</span>
         <input id="username" type="text" name="username">
     </label><br>
-    <label for="password">Пароль:
+    <label for="password"><span th:text="|#{login.password}:|">Password</span>
         <input id="password" type="password" name="password">
     </label><br>
-    <button type="submit">Вход</button>
+    <button type="submit"><span th:text="#{login.send}">Sign in</span></button>
 </form>
 <form action="/store/registration">
-    <button type="submit">Регистрация</button>
+    <button type="submit"><span th:text="#{login.register}">Sign up</span></button>
 </form>
 <div>
-    <div>Вход через:</div>
+    <div><span th:text="|#{login.with}:|">Login with</span></div>
     <a href="/oauth2/authorization/google">
         <img src="https://play-lh.googleusercontent.com/aFWiT2lTa9CYBpyPjfgfNHd0r5puwKRGj2rHpdPTNrz2N9LXgN_MbLjePd1OTc0E8Rl1" alt="google" height="50" width="50">
     </a>
 </div>
+<div th:insert="~{logout :: locale}"></div>
 </body>
 </html>

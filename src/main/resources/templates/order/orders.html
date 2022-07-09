@@ -12,21 +12,21 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Все заказ:</h1>
+<h1><span th:text="|#{admin.orders}:|">Orders</span></h1>
 <form action="/store/admin/orders/delete" method="post">
-    <label for="date"><strong>Удалить выполненые и откланеные заказы раньше: </strong></label>
+    <label for="date"><strong th:text="|#{orders.delete.date}: |">Delete</strong></label>
     <input id="date" type="date" name="date">
-    <button type="submit">Удалить</button>
+    <button type="submit"><span th:text="#{basket.delete}">Delete</span></button>
 </form><br>
 <table border="1px" class="tab">
     <tr>
-        <th width="50">Номер</th>
-        <th width="600">Товары и количество в заказе</th>
-        <th width="80">Дата оформления заказа</th>
-        <th width="80">Дата закрытия заказа</th>
-        <th width="120">Статус</th>
-        <th width="60">Цена</th>
-        <th width="100">Заказчика</th>
+        <th width="50"><span th:text="#{completed.number}">Number</span></th>
+        <th width="590"><span th:text="#{completed.product}">Order</span></th>
+        <th width="80"><span th:text="#{completed.date}">Date</span></th>
+        <th width="80"><span th:text="#{completed.data.close}">Date</span></th>
+        <th width="120"><span th:text="#{completed.status}">Status</span></th>
+        <th width="60"><span th:text="#{completed.price}">Price</span></th>
+        <th width="100"><span th:text="#{completed.customer}">Customer</span></th>
     </tr>
     <tr th:each="order : ${orders}">
         <td width="50" th:text="${order.id}">Id</td>
@@ -38,10 +38,10 @@
                 </span>
         </td>
         <td width="120">
-            <span th:if="${order.status eq 'PROCESSING'}">На обработке</span>
-            <span th:if="${order.status eq 'ACCEPTED'}">Принят</span>
-            <span th:if="${order.status eq 'REJECTED'}">Отклонен</span>
-            <span th:if="${order.status eq 'COMPLETED'}">Выполнен</span>
+            <span th:if="${order.status eq 'PROCESSING'}" th:text="#{orders.processing}">Processing</span>
+            <span th:if="${order.status eq 'ACCEPTED'}" th:text="#{completed.accepted}">Accepted</span>
+            <span th:if="${order.status eq 'REJECTED'}" th:text="#{orders.rejected}">Rejected</span>
+            <span th:if="${order.status eq 'COMPLETED'}" th:text="#{orders.completed}">Completed</span>
         </td>
         <td width="60" th:text="|${order.total}$|">Price</td>
         <td width="100">

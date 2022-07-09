@@ -52,6 +52,16 @@ class OrderControllerTest extends StoreTest {
 
     @Test
     @SneakyThrows
+    void  findByUserIdTest() {
+        mockMvc.perform(get("/store/order/user/1"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("order/orderuser"))
+                .andExpect(model().attributeExists("orders"))
+                .andExpect(model().attribute("orders", hasSize(6)));
+    }
+
+    @Test
+    @SneakyThrows
     void createTest(){
         mockMvc.perform(post("/store/ordering")
                         .param("amount", "1", "1", "1", "1", "1", "1"))

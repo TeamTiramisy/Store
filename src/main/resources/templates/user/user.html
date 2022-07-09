@@ -12,39 +12,42 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Пользователь:</h1>
-<label><strong>Имя: </strong>
+<h1><span th:text="|#{user.h}:|">Users</span></h1>
+<label><strong th:text="|#{account.firstname}: |">Firstname:</strong>
     <span th:text="${user.firstname}">Name</span>
 </label><br>
-<label><strong>Фамилия: </strong>
+<label><strong th:text="|#{account.lastname}: |">Lastname:</strong>
     <span th:text="${user.lastname}">Name</span>
 </label><br>
-<label><strong>Эл почта: </strong>
+<label><strong th:text="|#{account.email}: |">Email:</strong>
     <span th:text="${user.email}">Email</span>
 </label><br>
-<label><strong>Телефон: </strong>
+<label><strong th:text="|#{account.tel}: |">Tel:</strong>
     <span th:text="${user.tel}">Tel</span>
 </label><br>
-<label><strong>Адрес: </strong>
+<label><strong th:text="|#{account.address}: |">Address:</strong>
     <span th:text="${user.address}">Adress</span>
 </label><br>
-<label><strong>Роль: </strong>
+<label><strong th:text="|#{user.role}: |">Role</strong>
     <span th:text="${user.role}">Role</span>
 </label><br>
-<label><strong>Пол: </strong>
+<label><strong th:text="|#{user.gender}: |">Role</strong>
     <span th:if="${user.gender eq 'MALE'}">Муж</span>
     <span th:if="${user.gender eq 'FEMALE'}">Жен</span>
 </label><br>
-<label><strong>Черный список: </strong>
+<label><strong th:text="|#{user.blacklist}: |">List</strong>
     <span th:text="${user.blacklist}">Blacklist</span>
 </label><br>
 <form th:action="@{/store/admin/users/{id}/update(id=${user.id})}" method="post">
-    <button type="submit" th:if="${user.role eq 'USER'}">Сделать админом</button>
-    <button type="submit" th:if="${user.role eq 'ADMIN'}">Сделать юзером</button>
-</form>
+    <button type="submit" th:if="${user.role eq 'USER'}"><span th:text="#{users.admin}">Admin</span></button>
+    <button type="submit" th:if="${user.role eq 'ADMIN'}"><span th:text="#{users.user}">User</span></button>
+</form><br>
 <form th:action="@{/store/admin/users/{id}/blacklist(id=${user.id})}" method="post">
-    <button type="submit" th:if="${user.blacklist eq 'NO'}">Добавить в черный список</button>
-    <button type="submit" th:if="${user.blacklist eq 'YES'}">Убрать из черного списка</button>
-</form>
+    <button type="submit" th:if="${user.blacklist eq 'NO'}"><span th:text="#{users.add}">Add</span></button>
+    <button type="submit" th:if="${user.blacklist eq 'YES'}"><span th:text="#{users.delete}">Delete</span></button>
+</form><br>
+<a th:href="@{/store/order/user/{id}(id=${user.id})}">
+    <button type="button"><span th:text="#{user.order}"></span></button>
+</a>
 </body>
 </html>

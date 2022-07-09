@@ -1,9 +1,6 @@
 package com.dmdev.store.service;
 
 import com.dmdev.store.StoreTest;
-import com.dmdev.store.annotation.IT;
-import com.dmdev.store.database.entity.Order;
-import com.dmdev.store.database.entity.Status;
 import com.dmdev.store.database.repository.OrderRepository;
 import com.dmdev.store.dto.OrderReadDto;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +10,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static com.dmdev.store.database.entity.Status.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +38,21 @@ class OrderServiceTest extends StoreTest {
 
     @Test
     void findAllByUserIdTest(){
-        List<OrderReadDto> orders = orderService.findAllByUserId("rusya-niyazov@mail.ru");
+        List<OrderReadDto> orders = orderService.findAllByUser("rusya-niyazov@mail.ru");
+
+        assertEquals(6, orders.size());
+
+        boolean contains = orders.stream()
+                .map(OrderReadDto::getProduct)
+                .toList()
+                .contains("LG 43UP76506LD - 2");
+
+        assertTrue(contains);
+    }
+
+    @Test
+    void findAllByUserTest(){
+        List<OrderReadDto> orders = orderService.findAllByUser(1L);
 
         assertEquals(6, orders.size());
 

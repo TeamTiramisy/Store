@@ -12,21 +12,21 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Страничка админа:</h1>
+<h1><span th:text="|#{admin.h}:|">Page</span></h1>
 <a href="admin/add">
-    <p>Добавить товар</p>
+    <p><span th:text="#{add.h}">Add</span></p>
 </a>
 <a href="admin/users">
-    <p>Все пользователи</p>
+    <p><span th:text="#{admin.users}">Users</span></p>
 </a>
 <a href="admin/orders">
-    <p>Все заказы</p>
+    <p><span th:text="#{admin.orders}">Orders</span></p>
 </a>
 <a href="admin/orders/processing">
-    <p>Заказы на обработку</p>
+    <p><span th:text="#{admin.processing}">Orders</span></p>
 </a>
 <a href="admin/orders/completed">
-    <p>Заказы на закрытие</p>
+    <p><span th:text="#{admin.completed}">Orders</span></p>
 </a>
 </body>
 </html>

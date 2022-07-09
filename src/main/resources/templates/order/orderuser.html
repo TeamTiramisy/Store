@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
-    <title>Orders</title>
+    <title>Order</title>
     <style>
         .but {
             border: 0px;
@@ -15,7 +16,7 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1><span th:text="|#{completed.h}:|">Orders</span></h1>
+<h1><span th:text="|#{user.orders}:|">Orders</span></h1>
 <table border="1px" class="tab">
     <tr>
         <th width="50"><span th:text="#{completed.number}">Number</span></th>
@@ -24,29 +25,23 @@
         <th width="80"><span th:text="#{completed.data.close}">Date</span></th>
         <th width="120"><span th:text="#{completed.status}">Status</span></th>
         <th width="60"><span th:text="#{completed.price}">Price</span></th>
-        <th width="100"><span th:text="#{completed.customer}">Customer</span></th>
     </tr>
-    <tr th:each="order : ${orders}" th:if="${order.status eq 'ACCEPTED'}">
+    <tr th:each="order : ${orders}">
         <td width="50" th:text="${order.id}">Id</td>
-        <td width="590" th:text="${order.product}">Product</td>
-        <td width="80" th:text="${order.dateRegistration}">Date</td>
+        <td width="600" th:text="${order.product}">Product</td>
+        <td width="80"th:text="${order.dateRegistration}">Date</td>
         <td width="80">
                 <span th:if="${order.dateClose ne '1900-01-01'}" th:text="${order.dateClose}">
                     Date
                 </span>
         </td>
-        <td width="120"><span th:text="#{completed.accepted}">Accept</span></td>
+        <td width="120">
+            <span th:if="${order.status eq 'PROCESSING'}" th:text="#{orders.processing}">Processing</span>
+            <span th:if="${order.status eq 'ACCEPTED'}" th:text="#{completed.accepted}">Accepted</span>
+            <span th:if="${order.status eq 'REJECTED'}" th:text="#{orders.rejected}">Rejected</span>
+            <span th:if="${order.status eq 'COMPLETED'}" th:text="#{orders.completed}">Completed</span>
+        </td>
         <td width="60" th:text="|${order.total}$|">Price</td>
-        <td width="100">
-            <a th:href="@{/store/admin/users/{id}(id=${order.user.id})}">
-                <span th:text="${order.user.email}">User</span>
-            </a>
-        </td>
-        <td class="but">
-            <form th:action="@{/store/admin/orders/processing/{id}/completed(id=${order.id})}" method="post">
-                <button type="submit"><span th:text="#{completed.button}">Close</span></button>
-            </form>
-        </td>
     </tr>
 </table>
 </body>

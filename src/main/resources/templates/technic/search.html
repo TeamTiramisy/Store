@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{logout :: logout}"></div>
 <div th:insert="~{startline :: start}"></div>
-<h1>Результаты поиска <span th:text="${param.search}">Text</span>:</h1>
+<h1><span th:text="|#{search.h} ${param.search}:|">Search</span></h1>
 <div th:if="${not #strings.isEmpty(param.search) and not #lists.isEmpty(technics)}" th:each="technic : ${technics}">
     <img th:src="@{/api/v1/store/{id}/avatar(id=${technic.id})}" alt="Product image">
     <a th:href="@{'/store/' + ${technic.category} + '/' + ${technic.id}}" th:text="|${technic.name}|">Technic</a>
