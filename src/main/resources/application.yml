@@ -32,3 +32,7 @@ springdoc:
       client-secret: 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
       scopes: openid,email,profile
     oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
+
+app.common.logging:
+  enabled: true
+  level: INFO
